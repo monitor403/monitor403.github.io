@@ -5,18 +5,19 @@
   
 
   
-  <title>Archives: 2019/4 | Monitor&#39;s blog</title>
+  <title>test | Monitor&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="monitor&apos;s blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Monitor&#39;s blog">
-<meta property="og:url" content="http://monitor403.github.io/archives/2019/04/index.html">
+  <meta name="description" content="this is only for test.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="test">
+<meta property="og:url" content="http://monitor403.github.io/2019-04-24-test">
 <meta property="og:site_name" content="Monitor&#39;s blog">
-<meta property="og:description" content="monitor&apos;s blog">
+<meta property="og:description" content="this is only for test.">
 <meta property="og:locale" content="Chinese/English">
+<meta property="og:updated_time" content="2019-04-24T15:09:24.463Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Monitor&#39;s blog">
-<meta name="twitter:description" content="monitor&apos;s blog">
+<meta name="twitter:title" content="test">
+<meta name="twitter:description" content="this is only for test.">
   
     <link rel="alternate" href="/atom.xml" title="Monitor&#39;s blog" type="application/atom+xml">
   
@@ -63,40 +64,42 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019-04-24-test" class="archive-article-date">
-  <time datetime="2019-04-24T15:07:49.000Z" itemprop="datePublished">Apr 24</time>
+        <section id="main"><article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019-04-24-test" class="article-date">
+  <time datetime="2019-04-24T15:07:49.000Z" itemprop="datePublished">2019-04-24</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019-04-24-test">test</a>
+    <h1 class="article-title" itemprop="name">
+      test
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>this is only for test.</p>
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://monitor403.github.io/2019-04-24-test" data-id="cjuw7qdp4000035mcaj8yli4j" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
 
 </section>
         
