@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        php命令注入 - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开头"><span class="toc-text">开头</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#命令注入"><span class="toc-text">命令注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用函数"><span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eval-assert"><span class="toc-text">eval(),assert()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#preg-replace"><span class="toc-text">preg_replace()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pattern注入"><span class="toc-text">pattern注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#replacement注入"><span class="toc-text">replacement注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#subject注入"><span class="toc-text">subject注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#create-function"><span class="toc-text">create_function()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实例："><span class="toc-text">实例：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call-user-func-call-user-func-array-array-map"><span class="toc-text">call_user_func/call_user_func_array/array_map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#call-user-func"><span class="toc-text">call_user_func()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#array-map"><span class="toc-text">array_map()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反引号（）"><span class="toc-text">反引号（）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#END"><span class="toc-text">END</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        php命令注入
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-04-26 19:20:18</span></span>
+        
+        
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1323160968&auto=1&height=66"></iframe>
+
+<h1 id="开头"><a href="#开头" class="headerlink" title="开头"></a>开头</h1><p>最近几天，做到了一个关于关于命令注入的题目，奈何太菜，没做出来，于是到网上学习了一下php命令注入，这里只是对于自己学习的一个记录过程，不喜勿喷。</p>
+<h2 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h2><p>命令注入攻击通常是指：用户输入未作严格过滤，导致提交的内容传入某些函数会被当做系统命令执行。</p>
+<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><p><strong>eval(),assert(),preg_replace(), create_function(), call_user_func(), call_user_func_array()，array_map()，反引号(<code></code>)</strong> 等函数</p>
+<h2 id="eval-assert"><a href="#eval-assert" class="headerlink" title="eval(),assert()"></a>eval(),assert()</h2><p><code>&lt;?php@eval($_GET[&quot;cmd&quot;]);?&gt;</code><br><code>&lt;?php @assert($_GET[&quot;cmd&quot;]);?&gt;</code><br><strong>payload:</strong> xxx.php?cmd=phpinfo(); 这里没有任何过滤，可以执行任意命令</p>
+<h2 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace()"></a>preg_replace()</h2><p>preg_replace($pattern$,$replacement$,$subject$)这个函数就是在subject里面匹配到pattern的部分,用replacement替换<br>例如：</p>
+<pre><code>&lt;?php 
+$string = &apos;just a test&apos;;
+$pattern = &apos;/test/&apos;;
+$replacement = &apos;lalalal&apos;;
+echo preg_replace($pattern, $replacement, $string);
+?&gt;
+</code></pre><p>输出：just a lalalal<br>这个函数注入点就是，有一个e的命令选项，可以将replacement 参数当作php代码执行 并返回结果。</p>
+<h3 id="pattern注入"><a href="#pattern注入" class="headerlink" title="pattern注入"></a>pattern注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$pattern = $_GET[&apos;p&apos;];</span><br><span class="line">$var = &apos;this is a test&apos;;</span><br><span class="line">preg_replace(&quot;$pattern&quot;, &apos;phpinfo()&apos;, $var);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>payload</strong>:p=/test/e ,这时就会执行phpinfo();</p>
+<h3 id="replacement注入"><a href="#replacement注入" class="headerlink" title="replacement注入"></a>replacement注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$var = &apos;this is a test&apos;;</span><br><span class="line">preg_replace(&quot;//e&quot;, $_GET[&apos;r&apos;], &quot;$var&quot;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>payload</strong>: r=phpinfo()</p>
+<h3 id="subject注入"><a href="#subject注入" class="headerlink" title="subject注入"></a>subject注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">preg_replace(&quot;/\s*\[php\](.+?)\[\/php\]\s*/ies&quot;, &quot;\\1&quot;, $_GET[&apos;s&apos;]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>payload</strong>:s=[php]phpinfo()[/php]</p>
+<h2 id="create-function"><a href="#create-function" class="headerlink" title="create_function()"></a>create_function()</h2><p>官方文档解释是：</p>
+<pre><code>create_function ( string $args , string $code ) : string
+</code></pre><p>Creates an anonymous function from the parameters passed, and returns a unique name for it.<br>根据传递的参数创建匿名函数，并返回其唯一名称。<br>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$newfunc=create_function(&apos;$a,$b&apos;,&apos;return &quot;a+b=&quot;.($a+$b);&apos;);</span><br></pre></td></tr></table></figure>
+<p>上面代码 就是创建了如下的函数：<br><code>function test($a,$b){</code><br><code>return &quot;a+b=&quot;.($a+$b);</code><br><code>}</code></p>
+<h3 id="实例："><a href="#实例：" class="headerlink" title="实例："></a>实例：</h3><p>出现漏洞的代码块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">error_reporting(0);</span><br><span class="line"></span><br><span class="line">$sort_by = $_GET[&apos;sort_by&apos;];</span><br><span class="line"></span><br><span class="line">$sorter = ‘strnatcasecmp’;</span><br><span class="line"></span><br><span class="line">$databases=array(’1234′,’4321′);</span><br><span class="line"></span><br><span class="line">$sort_function = ‘ return 1 * ‘ . $sorter . ‘($a[&quot;&apos; . $sort_by . &apos;&quot;], $b[&quot;&apos; . $sort_by . &apos;&quot;]);’;</span><br><span class="line"></span><br><span class="line">usort($databases, create_function(‘$a, $b’, $sort_function));</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>这里的函数原型就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function test($a,$b)&#123;</span><br><span class="line">	return 1 * ‘ . $sorter . ‘($a[&quot;&apos; . $sort_by . &apos;&quot;], $b[&quot;&apos; . $sort_by . &apos;&quot;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>payload:</strong>sort_by=”]);}phpinfo();// 这样 就可以成功逃逸 执行phpinfo()<br><img src="/2019/04/26/2019-4-26-php-command-injection/1.png" alt="在这里插入图片描述"></p>
+<h2 id="call-user-func-call-user-func-array-array-map"><a href="#call-user-func-call-user-func-array-array-map" class="headerlink" title="call_user_func/call_user_func_array/array_map"></a>call_user_func/call_user_func_array/array_map</h2><h3 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func()"></a>call_user_func()</h3><p><strong>call_user_func:</strong> 第一个参数 callback 是被调用的回调函数，其余参数是回调函数的参数。<br>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$func=&apos;assert&apos;;</span><br><span class="line">$para=&apos;phpinfo()&apos;;</span><br><span class="line">call_user_func($func,$para);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/04/26/2019-4-26-php-command-injection/2.png" alt="在这里插入图片描述"><br>这里assert函数就会将phpinfo()成功执行<br>这里，call_user_func函数，在一个案例中运用到，和反序列化一起使用，详细的可以看：<br><a href="http://www.freebuf.com/column/161798.html" target="_blank" rel="noopener">http://www.freebuf.com/column/161798.html</a></p>
+<h3 id="array-map"><a href="#array-map" class="headerlink" title="array_map()"></a>array_map()</h3><p>返回数组，是为 array1 每个元素应用 callback函数之后的数组。 callback 函数形参的数量和传给 array_map() 数组数量，两者必须一样。<br>实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$evil_callback = $_GET[&apos;callback&apos;];</span><br><span class="line">$some_array = array(0, 1, 2, 3);</span><br><span class="line">$new_array = array_map($evil_callback, $some_array);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>payload:</strong> callback=phpinfo<img src="/2019/04/26/2019-4-26-php-command-injection/3.png" alt="在这里插入图片描述"></p>
+<h2 id="反引号（）"><a href="#反引号（）" class="headerlink" title="反引号（）"></a>反引号（<code></code>）</h2><p> 反引号的本质就是在操作系统执行该命令。此时可以造成命令注入等各种危害<br> 实例：<br> <img src="/2019/04/26/2019-4-26-php-command-injection/4.png" alt="在这里插入图片描述"></p>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2><p>先总结这么多，以后在碰到，在补充进来，参考链接：<a href="https://www.freebuf.com/column/166385.html" target="_blank" rel="noopener">https://www.freebuf.com/column/166385.html</a><br><a href="http://www.beesfun.com/2017/04/18/PHP%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E5%92%8C%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" target="_blank" rel="noopener">http://www.beesfun.com/2017/04/18/PHP%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E5%92%8C%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/</a><br><a href="https://3wapp.github.io/WebSecurity/php_cmdinject.html" target="_blank" rel="noopener">https://3wapp.github.io/WebSecurity/php_cmdinject.html</a></p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
