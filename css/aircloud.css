@@ -1089,8 +1089,8 @@ pre .javascript .function {
 .footer p {
   font-family: "Montserrat", "Helvetica Neue", "Hiragino Sans GB", "LiHei Pro", Arial, sans-serif;
   font-size: 14px;
-  margin-top: 5px;
-  margin-bottom: 0;
+  margin-top: -15px;
+  margin-bottom: 0px;
   font-weight: 300;
 }
 .footer p a {
