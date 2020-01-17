@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        python-learning - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#python学习笔记"><span class="toc-text">python学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数中的参数传递"><span class="toc-text">函数中的参数传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#classmethod-amp-amp-staticmethod"><span class="toc-text">@classmethod &amp;&amp; @staticmethod</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类变量、实例变量"><span class="toc-text">类变量、实例变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单下划线和双下划线"><span class="toc-text">单下划线和双下划线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iterables、Generators"><span class="toc-text">Iterables、Generators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#yield"><span class="toc-text">yield</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#args-amp-amp-kwargs"><span class="toc-text">*args &amp;&amp; **kwargs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decorator"><span class="toc-text">Decorator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-与-init"><span class="toc-text">__new__ 与 __init__</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单例模式"><span class="toc-text">单例模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程"><span class="toc-text">线程</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        python-learning
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-01-17 17:12:22</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#python" title="python">python</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h1 id="python学习笔记"><a href="#python学习笔记" class="headerlink" title="python学习笔记"></a>python学习笔记</h1><h2 id="函数中的参数传递"><a href="#函数中的参数传递" class="headerlink" title="函数中的参数传递"></a>函数中的参数传递</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">2</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(b)</span>:</span></span><br><span class="line">	<span class="keyword">print</span> <span class="string">"func_in"</span>,id(b)<span class="comment">#func_in 39630240</span></span><br><span class="line">	b=<span class="number">1</span></span><br><span class="line">	<span class="keyword">print</span> <span class="string">"func_in"</span>,id(b)<span class="comment">#func_in 39630264</span></span><br><span class="line">func(b)</span><br><span class="line"><span class="keyword">print</span> id(b),id(<span class="number">2</span>)<span class="comment">#39630240 39630240</span></span><br></pre></td></tr></table></figure>
+<p>对于这个函数的参数，虽然经过赋值，但是它本身并没有变化，可以看作是对变量的一个引用.在python中，类型属于对象，对象有两种，可变对象和不可变对象， strings, tuples, 和numbers是不可更改的对象，而 list, dict, set 等则是可以修改的对象 .</p>
+<p>下面这个例子就是可变对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"func_in"</span>,id(a)<span class="comment">#func_in 46177544</span></span><br><span class="line">    a.append(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"func_in"</span>,id(a)<span class="comment">#func_in 46177544</span></span><br><span class="line"></span><br><span class="line">func(a)</span><br><span class="line">print(a.__class__)<span class="comment">#&lt;type 'list'&gt;</span></span><br><span class="line"><span class="keyword">print</span> id(a),a<span class="comment">#46177544 [1]</span></span><br><span class="line"><span class="keyword">print</span> id(a[<span class="number">0</span>]),id(<span class="number">1</span>)<span class="comment">#44742824 44742824</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，a的类型是list，通过函数对参数进行赋值，变量a的值发生了改变，个人理解是因为,每个变量初始的时候，都会分配一个地址，每次函数调用变量的时候只是引用了变量，并没有实质的改变他的地址，之所以list这些类型会改变，是因为他将值存储到了a[0]中，而a属于一个list的地址，其实也并没有改变。</p>
+<h2 id="classmethod-amp-amp-staticmethod"><a href="#classmethod-amp-amp-staticmethod" class="headerlink" title="@classmethod &amp;&amp; @staticmethod"></a>@classmethod &amp;&amp; @staticmethod</h2><p>在python中有3个方法，类方法，静态方法和实例方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(self,x)</span>:</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">"executing foo(%s, %s)"</span> % (self, x)</span><br><span class="line"><span class="meta">	@classmethod</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">class_foo</span><span class="params">(cls,x)</span>:</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">"executing class_foo(%s, %s)"</span> % (cls, x)</span><br><span class="line"><span class="meta">	@staticmethod</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">static_foo</span><span class="params">(x)</span>:</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">"executming static_foo(%s)"</span> % x</span><br><span class="line"></span><br><span class="line">a = A()</span><br><span class="line">a.foo(<span class="number">1</span>)<span class="comment">#executing foo(&lt;__main__.A instance at 0x0000000002C14DC8&gt;, 1)</span></span><br><span class="line">a.class_foo(<span class="number">1</span>)<span class="comment">#executing class_foo(__main__.A, 1)</span></span><br><span class="line">a.static_foo(<span class="number">1</span>)<span class="comment">#executming static_foo(1)</span></span><br><span class="line">print(a.static_foo)<span class="comment">#&lt;function static_foo at 0x0000000002C18EB8&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里的<code>self，cls</code>是对实例和类的绑定，默认是这个，不能更改，而且这里的<code>@classmethod，@staticmethod</code>是 <code>decorators</code>用于声明类中方法的类型，若是少了这个，那么python默认这个方法就是实例方法 <img src="/2020/01/17/python-learning/1.png" alt="1"> </p>
+<p> <a href="https://stackoverflow.com/questions/136097/difference-between-staticmethod-and-classmethod" target="_blank" rel="noopener">https://stackoverflow.com/questions/136097/difference-between-staticmethod-and-classmethod</a> </p>
+<h2 id="类变量、实例变量"><a href="#类变量、实例变量" class="headerlink" title="类变量、实例变量"></a>类变量、实例变量</h2><p>在python类中同样存在两种变量类型，类变量是类中共有的变量，该类的所有实力都可以访问，实例变量是每个实例单独拥有的变量，不能被其他实例访问，个人理解相当于私有变量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        A.num +=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">a1 = A()</span><br><span class="line">a2 = A()</span><br><span class="line">a1.foo(<span class="string">'a1'</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"instance variable"</span>,a1.name<span class="comment">#instance variable a1</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"class variable"</span>,a1.num<span class="comment">#class variable 2</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"class variable"</span>,a2.num<span class="comment">#class variable 2</span></span><br><span class="line"><span class="keyword">print</span> a2.name<span class="comment">#AttributeError: 'A' object has no attribute 'name'</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，<code>num</code>是类变量，所以每个实例都可以访问，但是<code>name</code>是实例变量，<code>a1</code>实例创建的变量，<code>a2</code>访问不到</p>
+<h2 id="单下划线和双下划线"><a href="#单下划线和双下划线" class="headerlink" title="单下划线和双下划线"></a>单下划线和双下划线</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self._single = <span class="string">"variable1"</span></span><br><span class="line">		self.__double = <span class="string">"variable2"</span></span><br><span class="line"></span><br><span class="line">		</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = A()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a._single</span><br><span class="line"><span class="string">'variable1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.__double</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;pyshell#66&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    a.__double</span><br><span class="line">AttributeError: A instance has no attribute <span class="string">'__double'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> a.__dict__</span><br><span class="line">&#123;<span class="string">'_single'</span>: <span class="string">'variable1'</span>, <span class="string">'_A__double'</span>: <span class="string">'variable2'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>单下划线表明该变量或方法为私有，且 通过<code>from xx import *</code>不可被导入。</p>
+<p>双下划线用来区别其他类相同的命名，它不能直接被访问，要通过<code>_类名__xx</code>来访问</p>
+<p><code>__init__</code>这种类型是python内部自定义的名字，用来区别用户定义的</p>
+<h2 id="Iterables、Generators"><a href="#Iterables、Generators" class="headerlink" title="Iterables、Generators"></a>Iterables、Generators</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>myiterable=[x*x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">3</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i <span class="keyword">in</span> myiterable:</span><br><span class="line">	<span class="keyword">print</span> i</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i <span class="keyword">in</span> myiterable:</span><br><span class="line">	<span class="keyword">print</span> i</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mygenerator = (x*x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">3</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i <span class="keyword">in</span> mygenerator:</span><br><span class="line">	<span class="keyword">print</span> i	</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i <span class="keyword">in</span> mygenerator:</span><br><span class="line">	<span class="keyword">print</span> i</span><br><span class="line"><span class="comment">#null</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>myiterable</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mygenerator</span><br><span class="line">&lt;generator object &lt;genexpr&gt; at <span class="number">0x0000000002F60360</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>当我们创建一个list时，他就是一个迭代器，我们可以用<code>for.. in..</code>来迭代，这里的<code>myiterable</code>就是可迭代的，他会将所有值存储在内存里面，可以多次迭代</p>
+<p>generators也属于迭代的一种，但是它不会将值存储在内存中，只有当我们迭代的时候才会出现值，而且只能迭代一次</p>
+<h3 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h3><p><code>yield</code>是一个关键词，和<code>return</code>一样的用法，但是函数使用就会返回是<code>generators</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">creategenerators</span><span class="params">()</span>:</span></span><br><span class="line">	mylist = range(<span class="number">3</span>)</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> mylist:</span><br><span class="line">		<span class="keyword">yield</span> i*i</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fun = creategenerators()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(fun)</span><br><span class="line">&lt;generator object creategenerators at <span class="number">0x0000000002F60318</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>用<code>yield</code>时，当我们去请求函数，他只会返回函数类型，内部代码并不会运行，当我们用<code>for</code>迭代时，才会运行代码</p>
+<h2 id="args-amp-amp-kwargs"><a href="#args-amp-amp-kwargs" class="headerlink" title="*args &amp;&amp; **kwargs"></a>*args &amp;&amp; **kwargs</h2><p>用<code>*args &amp;&amp; **kwargs</code>方便函数定义，不强制</p>
+<p><code>*args</code>：当不确定函数里面要传多少参数时，可以用这个，它可以允许传递任意数量参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">getthing</span><span class="params">(*args)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> count,thing <span class="keyword">in</span> enumerate(args):</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'&#123;0&#125;.&#123;1&#125;'</span>.format(count,thing)</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = [<span class="string">'amdin'</span>,<span class="string">'guest'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getthing(a)</span><br><span class="line"><span class="number">0.</span>[<span class="string">'amdin'</span>, <span class="string">'guest'</span>]</span><br></pre></td></tr></table></figure>
+<p><code>**kwargs</code>:允许我们传递多个参未定义的参数名</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">puthing</span><span class="params">(**kwargs)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> count,thing <span class="keyword">in</span> kwargs.items():</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'&#123;&#125;=&#123;&#125;'</span>.format(count,thing)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>puthing(friut=<span class="string">'apple'</span>,name=<span class="string">'admin'</span>)</span><br><span class="line">friut=apple</span><br><span class="line">name=admin</span><br></pre></td></tr></table></figure>
+<p>当混合命名参数使用时，命名参数在最前面，参数值最先传递给命名参数，<code>*args &amp;&amp; **kwargs</code>一起用时，args必须在前面。</p>
+<h2 id="Decorator"><a href="#Decorator" class="headerlink" title="Decorator"></a>Decorator</h2><p>首先，在python中，函数可以当作一个变量赋值给另一个变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"hello"</span></span><br><span class="line">a = func</span><br><span class="line">a()<span class="comment">#hello</span></span><br></pre></td></tr></table></figure>
+<p>其次，我们还可以在函数中定义函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(name=<span class="string">"admin"</span>)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"now in test function"</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">modify</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"now in modify function"</span></span><br><span class="line">    <span class="keyword">if</span> name==<span class="string">"admin"</span>:</span><br><span class="line">        <span class="keyword">print</span> test()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> modify()</span><br><span class="line">func()<span class="comment"># now in test function</span></span><br><span class="line">modify()<span class="comment"># NameError: name 'modify' is not defined</span></span><br><span class="line"><span class="comment">#	可以看到，在func()调用时，里面的test()，modify()都会被调用</span></span><br><span class="line"><span class="comment">#	并且外部不可访问func内部的函数</span></span><br></pre></td></tr></table></figure>
+<p>接着，python中还可以在函数中返回函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(name=<span class="string">"admin"</span>)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"now in test function"</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">modify</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"now in modify function"</span></span><br><span class="line">    <span class="keyword">if</span> name==<span class="string">"admin"</span>:</span><br><span class="line">        <span class="keyword">return</span> test</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> modify</span><br><span class="line"><span class="keyword">print</span> func()<span class="comment">#&lt;function test at 0x0000000002AD8DD8&gt;</span></span><br><span class="line"><span class="comment">#	我们还可以输入func()()打印now in test function</span></span><br></pre></td></tr></table></figure>
+<p>装饰器：方便函数与类的重用，避免重复</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decorate_name</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorated</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Before execute func()"</span></span><br><span class="line">        func()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"After excute func()"</span></span><br><span class="line">    <span class="keyword">return</span> decorated</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"func() is excuting"</span></span><br><span class="line"><span class="comment">#下面个两步骤是用@运行时如何使用的</span></span><br><span class="line">func = decorate_name(func)</span><br><span class="line">func()</span><br><span class="line"><span class="comment">#output:</span></span><br><span class="line"><span class="comment">#	Before execute func()</span></span><br><span class="line"><span class="comment">#	func() is excuting</span></span><br><span class="line"><span class="comment">#	After excute func()</span></span><br></pre></td></tr></table></figure>
+<p>装饰器一般用<code>@xxx</code>来表示，上面代码描述了我们使用后<code>@</code>时，代码运行的过程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decorate_name</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorated</span><span class="params">(*args,**kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> case:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"func not run"</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> func()</span><br><span class="line">    <span class="keyword">return</span> decorated</span><br><span class="line"></span><br><span class="line"><span class="meta">@decorate_name</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"func is running"</span></span><br><span class="line">case = <span class="literal">False</span></span><br><span class="line"><span class="keyword">print</span> func()</span><br></pre></td></tr></table></figure>
+<p> <strong>@wraps</strong>接受一个函数来进行装饰，并加入了复制函数名称、注释文档、参数列表等等的功能 </p>
+<p>之前讲的是函数装饰器，初次之外还有一个类装饰器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Myclass</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,case)</span>:</span></span><br><span class="line">        self.case = case</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self,func)</span>:</span></span><br><span class="line"><span class="meta">        @wraps(func)</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">decorated</span><span class="params">(*args,**kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> self.case:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"func not run"</span></span><br><span class="line">            <span class="keyword">return</span> func()</span><br><span class="line">        <span class="keyword">return</span> decorated</span><br><span class="line"></span><br><span class="line"><span class="meta">@Myclass(False)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"func is running"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> func()<span class="comment">#func not run</span></span><br></pre></td></tr></table></figure>
+<p>类装饰器和函数装饰器有点不一样，它需要<code>__call__</code>去调用<code>func</code>，这个是类装饰器的必须条件，上面还展示了装饰器带参数的形式</p>
+<h2 id="new-与-init"><a href="#new-与-init" class="headerlink" title="__new__ 与 __init__"></a>__new__ 与 __init__</h2><p><code>__new__</code>是一个类方法用于返回创建的实例，<code>__init__</code>是一个实例方法，用于初始实例，并且在 <code>__new__</code>之后调用。<code>__new__</code>可以用在单例模式下。</p>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>单例模式目的是给每个类只分配一个实例，避免实例过多造成的资源堵塞</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#__new__</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">(object)</span>:</span></span><br><span class="line">    instance = <span class="literal">None</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> cls.instance  <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            cls.instance = super(Singleton,cls).__new__(cls,*args,**kwargs)</span><br><span class="line">        <span class="keyword">return</span> cls.instance</span><br><span class="line"></span><br><span class="line">a = Singleton()</span><br><span class="line">b = Singleton()</span><br><span class="line"><span class="keyword">print</span> a,b</span><br><span class="line"><span class="comment">#&lt;__main__.Singleton object at 0x0000000002AA9828&gt; </span></span><br><span class="line"><span class="comment">#&lt;__main__.Singleton object at 0x0000000002AA9828&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#装饰器</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">singleton</span><span class="params">(cls)</span>:</span></span><br><span class="line">    instance = cls()</span><br><span class="line">    instance.__call__ = <span class="keyword">lambda</span> : instance</span><br><span class="line">    <span class="keyword">return</span> instance</span><br><span class="line"></span><br><span class="line"><span class="meta">@singleton</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    x = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">a = func()</span><br><span class="line">b = func()</span><br><span class="line"><span class="keyword">print</span> a,b</span><br><span class="line"><span class="comment">#&lt;__main__.func instance at 0x00000000029C5348&gt; </span></span><br><span class="line"><span class="comment">#&lt;__main__.func instance at 0x00000000029C5348&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">singleton</span><span class="params">(cls)</span>:</span></span><br><span class="line">    instances = &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getinstance</span><span class="params">(*args, **kw)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> cls <span class="keyword">not</span> <span class="keyword">in</span> instances:</span><br><span class="line">            instances[cls] = cls(*args, **kw)</span><br><span class="line">        <span class="keyword">return</span> instances[cls]</span><br><span class="line">    <span class="keyword">return</span> getinstance</span><br></pre></td></tr></table></figure>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(x,y):</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"thread is &gt;&gt;&gt;&#123;&#125;"</span>.format(i)</span><br><span class="line"></span><br><span class="line">t = threading.Thread(target=loop,args=(<span class="number">1</span>,<span class="number">10</span>))</span><br><span class="line">t.start()</span><br><span class="line">t.join()</span><br></pre></td></tr></table></figure>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <a href="http://m0nit0r.top">Monitor's Blog</a> && Theme by Aircloud</p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
