@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        CBC翻转字节攻击 - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CBC翻转字节攻击"><span class="toc-text">CBC翻转字节攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加密原理"><span class="toc-text">加密原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解密原理"><span class="toc-text">解密原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#攻击方法"><span class="toc-text">攻击方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IV"><span class="toc-text">IV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#N-1个密文-N-gt-1"><span class="toc-text">N-1个密文(N&gt;1)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2017-SKCTF-login4"><span class="toc-text">2017 SKCTF login4</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        CBC翻转字节攻击
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-02-03 21:42:46</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#cipher" title="cipher">cipher</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1407245392&auto=1&height=66"></iframe>
+
+<h2 id="CBC翻转字节攻击"><a href="#CBC翻转字节攻击" class="headerlink" title="CBC翻转字节攻击"></a>CBC翻转字节攻击</h2><p>CBC又称分密码分组链接，在CBC模式中，每个部分都被分成块，通过异或之后经行加密，为保证消息的唯一性，在第一个模块中需要使用初始向量。</p>
+<p><strong>名词解释：</strong></p>
+<ul>
+<li><strong>plaintext:</strong> 明文，待加密的数据</li>
+<li><strong>IV:</strong> 初始向量</li>
+<li><strong>ciphertext:</strong> 加密后的密文</li>
+<li><strong>key:</strong> 密钥</li>
+</ul>
+<h2 id="加密原理"><a href="#加密原理" class="headerlink" title="加密原理"></a>加密原理</h2><p><img src="/2020/02/03/cbc-flip-attack/cbc1.png" alt></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">原理：</span><br><span class="line">ciphertext[<span class="number">0</span>] = <span class="built_in">encrypt</span>(IV ^ plaintext)<span class="comment">--IV只用于第一块明文(16个字节为一组)</span></span><br><span class="line">ciphertext[<span class="number">1</span>:N] = <span class="built_in">encrypt</span>(Previous ciphertext ^ plaintext)<span class="comment">--用于第二块之后所有的明文</span></span><br><span class="line"></span><br><span class="line"><span class="number">1.</span>首先将初始向量(IV)与第一个明文块异或，异或之后加入key进行<span class="built_in">encrypt</span>得到第一块ciphertext</span><br><span class="line"><span class="number">2.</span>将第一块ciphertext与第二个明文块异或，异或之后加入key进行<span class="built_in">encrypt</span>得到第二块ciphertext</span><br><span class="line"><span class="number">3.</span>以此类推......最终密文是IV密文拼接而成的</span><br></pre></td></tr></table></figure>
+<h2 id="解密原理"><a href="#解密原理" class="headerlink" title="解密原理"></a>解密原理</h2><p><img src="/2020/02/03/cbc-flip-attack/cbc2.png" alt></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">原理：</span><br><span class="line">plaintext[<span class="number">0</span>] = <span class="built_in">decrypt</span>(ciphertext[<span class="number">0</span>]) ^ IV<span class="comment">--IV只用于第一块密文</span></span><br><span class="line">plaintext[<span class="number">1</span>:N] = <span class="built_in">decrypt</span>(current ciphertext) ^ (previous ciphertext)<span class="comment">--用于第二块之后所有密文</span></span><br><span class="line"></span><br><span class="line"><span class="number">1.</span>将IV从密文中提取出来</span><br><span class="line"><span class="number">2.</span>将IV与解密后的ciphertext进行异或，得到第一块plaintext</span><br><span class="line"><span class="number">3.</span>将第一块ciphertext与第二块解密后的ciphertext进行异或，得到第二块plaintext</span><br><span class="line"><span class="number">4.</span>以此类推......</span><br></pre></td></tr></table></figure>
+<h3 id="攻击方法"><a href="#攻击方法" class="headerlink" title="攻击方法"></a>攻击方法</h3><p>这个解密过程中，攻击点有两个：IV 和 N-1个密文(N&gt;1)</p>
+<h4 id="IV"><a href="#IV" class="headerlink" title="IV"></a>IV</h4><p>假设我们存在一组这样的，A为plaintext，B为IV，C为decrypt(current ciphertext)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A = plaintext[<span class="number">0</span>]=<span class="number">1</span> <span class="comment">#old_str</span></span><br><span class="line">B = IV = <span class="number">10</span> <span class="comment">#Old_IV</span></span><br><span class="line">C = decrypt(ciphertext[<span class="number">0</span>]) = <span class="number">11</span></span><br></pre></td></tr></table></figure>
+<p>在这里明文通过<code>A = B^C</code>可以得到，假如我们需要改变第一块明文的结果，就需要改变<code>IV</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">A = plaintext[<span class="number">0</span>]=<span class="number">2</span> <span class="comment">#需要改成的值 target_str</span></span><br><span class="line">B = New_IV <span class="comment">#新的初始向量</span></span><br><span class="line">C = decrypt(ciphertext[<span class="number">0</span>])</span><br><span class="line"><span class="comment">#推导New_IV过程</span></span><br><span class="line">C ^ Old_IV = old_str</span><br><span class="line">C = Old_IV ^ old_str</span><br><span class="line"><span class="comment">#需要</span></span><br><span class="line">C ^ New_IV = target_str</span><br><span class="line">C = New_IV ^ target_str</span><br><span class="line"><span class="comment">#所以</span></span><br><span class="line">Old_IV ^ old_str == New_IV ^ target_IV</span><br><span class="line">New_IV = Old_IV ^ old_str ^ target_str <span class="comment">#获取新的初始向量公式</span></span><br></pre></td></tr></table></figure>
+<h4 id="N-1个密文-N-gt-1"><a href="#N-1个密文-N-gt-1" class="headerlink" title="N-1个密文(N&gt;1)"></a>N-1个密文(N&gt;1)</h4><p>假如我们需要修改第N组明文内容，那么就可以攻击N-1个密文</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">plaintext = [</span><br><span class="line">	<span class="string">'comment=helooooa'</span>,</span><br><span class="line">	<span class="string">'username=monitor'</span>,</span><br><span class="line">    <span class="string">'date=2019-1-12'</span></span><br><span class="line">]</span><br><span class="line"><span class="comment">#我们需要将username变成isadmin，密文已知可控</span></span><br><span class="line">old_pt[<span class="number">0</span>] = plaintext[<span class="number">0</span>] = <span class="string">'comment=helooooa'</span> </span><br><span class="line">old_ct[<span class="number">0</span>] = decrypt(ciphertext[<span class="number">0</span>]) = 已知</span><br><span class="line">old_ct[<span class="number">1</span>] = decrypt(ciphertext[<span class="number">1</span>]) = 已知</span><br><span class="line">New_pt[<span class="number">1</span>] = <span class="string">'username=isadmin'</span></span><br><span class="line"><span class="comment">#获取New_ct[0]过程</span></span><br><span class="line">old_ct[<span class="number">0</span>] ^ old_ct[<span class="number">1</span>] = old_pt[<span class="number">1</span>]</span><br><span class="line">old_ct[<span class="number">1</span>] = old_ct[<span class="number">0</span>] ^ old_pt[<span class="number">1</span>]</span><br><span class="line"><span class="comment">#还需</span></span><br><span class="line">New_ct[<span class="number">0</span>] ^ old_ct[<span class="number">1</span>] = New_pt[<span class="number">1</span>]</span><br><span class="line">old_ct[<span class="number">1</span>] = New_ct[<span class="number">0</span>] ^ New_pt[<span class="number">1</span>]</span><br><span class="line"><span class="comment">#所以</span></span><br><span class="line">old_ct[<span class="number">0</span>] ^ old_pt[<span class="number">1</span>] = New_ct[<span class="number">0</span>] ^ New_pt[<span class="number">1</span>]</span><br><span class="line">New_ct[<span class="number">0</span>] = old_ct[<span class="number">0</span>] ^ old_pt[<span class="number">1</span>] ^ New_pt[<span class="number">1</span>]<span class="comment">#获取N-1新的密文</span></span><br><span class="line"><span class="comment">#第N-1组新密文 = 第N-1组旧密文 ^ 第N组就明文 ^ 第N组新明文</span></span><br></pre></td></tr></table></figure>
+<h2 id="2017-SKCTF-login4"><a href="#2017-SKCTF-login4" class="headerlink" title="2017 SKCTF login4"></a>2017 SKCTF login4</h2><p>详细代码见<a href="https://github.com/p0sec/SKCTF2017" target="_blank" rel="noopener">题目地址</a></p>
+<p>考核点：CBC翻转字节攻击的两个点，IV和密文</p>
+<p>这里的IV和密文储存在cookie中，所以是我们可控的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#明文块：</span></span><br><span class="line">a:<span class="number">2</span>:&#123;s:<span class="number">8</span>:<span class="string">"userna</span></span><br><span class="line"><span class="string">me"</span>;s:<span class="number">5</span>:<span class="string">"test1"</span>;</span><br><span class="line">s:<span class="number">8</span>:<span class="string">"password"</span>;s</span><br><span class="line">:<span class="number">7</span>:<span class="string">"monitor"</span>&#125;</span><br><span class="line"><span class="comment">#需求--将test1改成admin，即需要的到第一块的新密文</span></span><br><span class="line"><span class="comment">#-*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment">#伪造密文，提交</span></span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">ciher = <span class="string">"KQLoqqk7v+aiHe2u9RLkCgxNNbMTFxd5ArHflVlA87crG/osNp6bwdxjzb5UYcYoy4AfWiQbYgygpp0h2/MK/A=="</span>.decode(<span class="string">"base64"</span>)</span><br><span class="line">old_pt = <span class="string">"me\";s:5:\"test1\";"</span></span><br><span class="line">new_pt = <span class="string">"me\";s:5:\"admin\";"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">16</span>):</span><br><span class="line">    cipher = cipher[:i]+chr(ord(cipher[i])^ord(old_pt[i])^ord(new_pt[i]))+cipher[i+<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">print</span> urllib.quote(cipher.encode(<span class="string">"base64"</span>))</span><br><span class="line"><span class="comment">#报错得到plain，伪造IV</span></span><br><span class="line">plain = <span class="string">"U6m8Cig8+X/MJdhMyW9Wom1lIjtzOjU6ImFkbWluIjtzOjg6InBhc3N3b3JkIjtzOjc6Im1vbml0b3IiO30="</span>.decode(<span class="string">"base64"</span>)</span><br><span class="line">old_str = plain[:<span class="number">16</span>]</span><br><span class="line">new_str = <span class="string">'a:2:&#123;s:8:\"userna'</span></span><br><span class="line">old_iv = <span class="string">'cSA4biZczXmBIjoaftE4xg=='</span>.decode(<span class="string">'base64'</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">16</span>):</span><br><span class="line">    new_iv = old_iv[:i]+chr(ord(old_iv[i])^ord(old_str[i])^ord(new_str[i]))+old_iv[i+<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">print</span> urllib.quote(new_iv.encode(<span class="string">"base64"</span>))</span><br></pre></td></tr></table></figure>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <a href="http://m0nit0r.top">Monitor's Blog</a> && Theme by Aircloud</p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
