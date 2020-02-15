@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        RPO To Xss - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-RPO"><span class="toc-text">What RPO?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用条件"><span class="toc-text">利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器解析差异"><span class="toc-text">服务器解析差异</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器解析差异"><span class="toc-text">浏览器解析差异</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的利用"><span class="toc-text">简单的利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pathinfo模式"><span class="toc-text">Pathinfo模式</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        RPO To Xss
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-02-15 17:17:38</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#xss" title="xss">xss</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#html" title="html">html</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h2 id="What-RPO"><a href="#What-RPO" class="headerlink" title="What RPO?"></a>What RPO?</h2><p> RPO (Relative Path Overwrite)相对路径覆盖，作为一种相对新型的攻击方式，利用的是nginx服务器、配置错误的Apache服务器和浏览器之间对URL解析出现的差异，并借助文件中包含的相对路径的css或者js造成跨目录读取css或者js，甚至可以将本身不是css或者js的页面当做css或者js解析，从而触发xss等进一步的攻击手段。 </p>
+<h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><ul>
+<li>Apache 配置错误导致AllowEncodedSlashes这个选项开启（默认关闭），或者nginx服务器。 </li>
+<li>存在相对路径的js或者css的引用  </li>
+</ul>
+<h3 id="服务器解析差异"><a href="#服务器解析差异" class="headerlink" title="服务器解析差异"></a>服务器解析差异</h3><p>apache和nginx服务器两者对于<code>%2f</code>解析是不一样的。</p>
+<p>默认情况下，apache服务器并不会解析<code>%2f</code>，即AllowEncodedSlashes=off：</p>
+<p><img src="/2020/02/15/RPO-atttack/4.png" alt></p>
+<p>但是nginx服务器默认会解析<code>%2f</code>：</p>
+<p><img src="/2020/02/15/RPO-atttack/5.png" alt="5"></p>
+<h3 id="浏览器解析差异"><a href="#浏览器解析差异" class="headerlink" title="浏览器解析差异"></a>浏览器解析差异</h3><p>在nginx中，会对编码后的url正常识别，也就是在服务器中会对url解析后找到正确的路径</p>
+<p>但是浏览器识别url不会解析，所以并不认识<code>%2f</code>，那么就造成客户端与服务端两者的解析产生了差异</p>
+<p>我们服务器上有<code>index.php style.css</code>两个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//index.php</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot; /&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">echo &quot;RPO Test!&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>正常情况下，我们是可以访问<code>index.php</code>，会加载同目录下的<code>style.css</code>文件的:</p>
+<p><img src="/2020/02/15/RPO-atttack/6.png" alt="6"></p>
+<p>但是一旦我们使用<code>%2f</code>,解析差异就会导致相对路径的文件错误：</p>
+<p><img src="/2020/02/15/RPO-atttack/7.png" alt="7"></p>
+<p>我们本应该加载<code>/RPO/style.css</code>的，但是因为差异导致加载<code>/RPO/index.php/style.css</code></p>
+<h2 id="简单的利用"><a href="#简单的利用" class="headerlink" title="简单的利用"></a>简单的利用</h2><p>当前文件夹文件分布：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">─RPO</span><br><span class="line">   │  <span class="number">1</span>.js</span><br><span class="line">   │  index.php</span><br><span class="line">   │</span><br><span class="line">   └─js</span><br><span class="line">           <span class="number">1</span>.js</span><br></pre></td></tr></table></figure>
+<p>文件内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src=1.js&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">echo &quot;RPO Attack!&quot;;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;!-- 同目录下的1.js为空文件</span><br><span class="line">js文件下的1.js：</span><br><span class="line">alert(&quot;RPO Attack success!&quot;); --&gt;</span><br></pre></td></tr></table></figure>
+<p>正常访问<code>index.php</code>,会加载当前目录下的<code>1.js</code>：</p>
+<p><img src="/2020/02/15/RPO-atttack/8.png" alt="8"></p>
+<p>倘若我们用<code>%2f</code>，就会出现不一样的情况：</p>
+<p><img src="/2020/02/15/RPO-atttack/9.png" alt="9"></p>
+<p>我们可以发现，我们本来应该访问的是<code>/RPO/index.php</code>，但是却加载了<code>/RPO/js/1.js</code>，而且如果我们直接访问这个文件是不会执行的，但是这里却当作js执行了，触发了xss.</p>
+<p><strong>实现过程：</strong></p>
+<ul>
+<li>我们访问：<code>http://192.168.43.14/hack_to_learn/RPO/js/..%2findex.php</code></li>
+<li>nginx服务器解析:<code>http://192.168.43.14/hack_to_learn/RPO/js/../index.php</code></li>
+<li>服务器返回<code>http://192.168.43.14/hack_to_learn/RPO/index.php</code>内容给浏览器</li>
+<li>浏览器根据url路径来处理我们引用的相对路径文件，因为把<code>..%2findex.php</code>当作一个文件，所以它会调用当前路径下的<code>1.js</code>,自然就加载了当前目录下的<code>1.js</code>，因为引用的js被<code>&lt;script&gt;</code>标签包裹，所以会被当作js执行，触发了xss</li>
+</ul>
+<p>既然我们可以加载静态资源文件，那么是不是还可以加载服务器返回的内容，将他当作<code>css/js</code>来解析呢，那么先来了解一下什么是<code>pathinfo</code></p>
+<h2 id="Pathinfo模式"><a href="#Pathinfo模式" class="headerlink" title="Pathinfo模式"></a>Pathinfo模式</h2><p>我们一般情况下，访问的url类似这种<code>http://127.0.0.1/index.php?id=1&amp;user=admin</code>模式，称为动态url， 但在很多使用了url_rewrite的php开发框架以及python web框架中，会采用伪静态url类似这种<code>http://127.0.0.1/index.php/1/admin</code>(可以是任何模式，自己写规则)</p>
+<p>这里我配置好了apache的<code>url_write</code>规则，当前目录下的<code>index.php</code>为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot; /&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line"> echo ($_SERVER[&apos;PHP_SELF&apos;]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>同目录下的<code>style.css</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>&#123;</span><br><span class="line">      <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们访问index.php会正常加载当前目录下的样式：</p>
+<p><img src="/2020/02/15/RPO-atttack/10.png" alt="10"></p>
+<p>倘若我们访问<code>/RPO/index.php/xxxx/</code>,来看看会发生什么：</p>
+<p><img src="/2020/02/15/RPO-atttack/11.png" alt="11"></p>
+<p>可以看到，<code>RPO/style.css</code>文件的路径变成了<code>/RPO/index.php/xxxx/style.css</code>,并且内容变成了<code>index.php</code>的内容，也就是说浏览器将服务器返回的内容当作css解析了，这就是为什么样式失效的原因(js同理)</p>
+<p>这里本来是想弄一个将服务器返回内容加载成js的，因为<code>AllowEncodedSlashes</code>这个一配置就导致php无法解析，所以没有弄成功，找了半天没搞得什么原因…</p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <a href="http://m0nit0r.top">Monitor's Blog</a> && Theme by Aircloud</p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
