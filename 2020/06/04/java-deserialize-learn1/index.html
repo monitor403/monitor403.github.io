@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        java反序列漏洞学习-基础 - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    <script src="/js/wrap.js"></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java序列化与反序列原理"><span class="toc-text">Java序列化与反序列原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#readObject重写"><span class="toc-text">readObject重写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        java反序列漏洞学习-基础
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-06-04 20:59:39</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#java" title="java">java</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#反序列化" title="反序列化">反序列化</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><strong>序列化</strong>（serialization）在计算机科学的数据处理中，是指将数据结构或对象状态转换成可取用格式（例如存成文件，存于缓冲，或经由网络中发送），以留待后续在相同或另一台计算机环境中，能恢复原先状态的过程。依照序列化格式重新获取字节的结果时，可以利用它来产生与原始对象相同语义的副本。对于许多对象，像是使用大量引用的复杂对象，这种序列化重建的过程并不容易。面向对象中的对象序列化，并不概括之前原始对象所关系的函数。这种过程也称为对象编组（marshalling）。从一系列字节提取数据结构的反向操作，是反序列化（也称为解编组、deserialization、unmarshalling）。 </p>
+</blockquote>
+<h2 id="Java序列化与反序列原理"><a href="#Java序列化与反序列原理" class="headerlink" title="Java序列化与反序列原理"></a>Java序列化与反序列原理</h2><p>在java中，序列化的处理：</p>
+<p>1.<code>ObjectOutputStream</code>类中的<code>writeObject</code>方法用来处理需要序列化的对象。</p>
+<p>2.<code>ObjectInputStream</code>类中的<code>readObject</code>方法用来处理反序列化。</p>
+<p>3.被序列化的类要实现<code>java.io.Serializable</code>接口。</p>
+<p>我们先用一个<strong>demo</strong>来看看java是如何处理序列化与反序列化的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>  java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        <span class="comment">//serialize</span></span><br><span class="line">        user.setName(<span class="string">"monitor"</span>);</span><br><span class="line">        FileOutputStream fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="string">"test.ser"</span>);</span><br><span class="line">        ObjectOutputStream obos = <span class="keyword">new</span> ObjectOutputStream(fileOutputStream);</span><br><span class="line">        obos.writeObject(user);</span><br><span class="line">        obos.close();</span><br><span class="line">        <span class="comment">//deserialize</span></span><br><span class="line">        FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(<span class="string">"test.ser"</span>);</span><br><span class="line">        ObjectInputStream obis = <span class="keyword">new</span> ObjectInputStream(fileInputStream);</span><br><span class="line">        obis.readObject();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，java在对象进行序列化之前，会创建一个文件流，序列化后的数据就会保存在这个文件中。当然，如果不想保存到文件，也可以使用<code>ByteArrayOutputStream</code>生成字节流 。接着会生成一个<code>ObjectOutputStream</code>的对象，然后调用<code>writeObject</code>方法进行序列化，生成的数据保存到<code>test.ser</code>文件中，反序列化流程差不多，就不解释了。</p>
+<p>熟悉PHP的都知道，PHP在序列化之后得到的一串可读字符串，甚至在特别情况下，可以伪造序列化字符串进行攻击，那么java下面来看看java生成的序列化数据内部存在什么，这里用到<a href="https://github.com/NickstaDB/SerializationDumper" target="_blank" rel="noopener">SerializationDumper</a>工具。</p>
+<p><img src="/2020/06/04/java-deserialize-learn1/java-learn1.png" alt="java-learn1"></p>
+<p>这里主要说几个点，想要详细了解自行百度。<code>STREAM_MAGIC:0xaced</code>魔术头，是java序列化数据的特征，;<code>STREAM_VERSION:0x0005</code>序列化使用的JDK版本号，在<code>contents</code>中有一个最重要的是<code>serialVersionUID</code>，在反序列化时，java会将本地<code>serialVersionUID</code>与数据里的进行对比，只要两者一致的情况下才能成功反序列化，否在会抛出异常错误。</p>
+<h3 id="readObject重写"><a href="#readObject重写" class="headerlink" title="readObject重写"></a>readObject重写</h3><p>在java中，是否存在反序列化漏洞的关键是<code>readObject</code>方法，只有该方法”可控“才能成功触发java反序列化漏洞。这时候，可能会生出一个疑问，为什么java中的反序列化触发依赖于<code>readObject</code>这个方法？</p>
+<p>我们知道，序列化的数据一般只保存属性名、属性值、类等信息。那么实际上，我们能控制的只有值，并不能实际的调用内部的方法，达到我们想要的操作。就以PHP为例，一般情况下，我们构造PHP反序列化漏洞，肯定会用到一个东西：魔术方法，我们一般会在代码中寻找可用的魔术方法，构造出一条可用的攻击链。例如，这里就以<code>__toString()</code>来举一个例子：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">        system(<span class="string">"whoami"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>熟悉PHP的朋友都知道，当类被当作字符串时，会触发<code>__toString()</code>函数，那么如果有一个类将<code>Test</code>的对象作为字符串输出，就会触发该函数，执行命令。java这里的<code>readObject</code>方法就类似PHP的魔术方法，需要我们去寻找合适的方法，构造攻击链。</p>
+<p>下面来给出一个demo进一步了解一下java反序列化漏洞：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>  java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VulnClass</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Date date;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">VulnClass</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">VulnClass</span><span class="params">(String name,Date date)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.date = date;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"User&#123;"</span> +</span><br><span class="line">                <span class="string">"name='"</span> + name + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", date="</span> + date +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream stream)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        stream.defaultReadObject();</span><br><span class="line">        Runtime.getRuntime().exec(<span class="string">"calc"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        serialize();</span><br><span class="line">        deserialize();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        VulnClass user = <span class="keyword">new</span> VulnClass(<span class="string">"monitor"</span>,<span class="keyword">new</span> Date());</span><br><span class="line">        FileOutputStream fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="string">"test.ser"</span>);</span><br><span class="line">        ObjectOutputStream obos = <span class="keyword">new</span> ObjectOutputStream(fileOutputStream);</span><br><span class="line">        obos.writeObject(user);</span><br><span class="line">        obos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deserialize</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(<span class="string">"test.ser"</span>);</span><br><span class="line">        ObjectInputStream obis = <span class="keyword">new</span> ObjectInputStream(fileInputStream);</span><br><span class="line">        obis.readObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/04/java-deserialize-learn1/java-learn2.gif" alt="java-learn2"></p>
+<p>这里简单调试一下代码，看看是如何导致的：</p>
+<p><img src="/2020/06/04/java-deserialize-learn1/java-learn4.png" alt="java-learn4"></p>
+<p>从调试的堆栈中可以看到，在反序列化时，调用<code>readObject</code>方法时，java会先加载<code>ObjectInputStream</code>类的方法读取反序列化字节的数据，然后通过<code>Method</code>的方法获取反序列化的方法，最终会调用到我们在该类重写的<code>readObject</code>方法，由于在方法内存在系统执行命令(下图第三行)，导致反序列化漏洞触发。<img src="/2020/06/04/java-deserialize-learn1/java-learn3.png" alt="java-learn3"></p>
+<p>这里只是以一个Demo演示，实际情况肯定比这复杂的多，而且漏洞构造会用到一些特性，比如Java的反射。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结一下，java反序列化漏洞的两个关键点：</p>
+<p>1.反序列化的类必须实现<code>Serializable</code>接口。</p>
+<p>2.在运行的java环境中，有能够利用的<code>readObject</code>方法</p>
+<p>因为java一年多没用了，基本上都是从零开始学了。所以这里初步从代码层去理解java反序列的漏洞原理，后续会对java进行深入的学习，分析 <code>ysoserial</code> 这个工具中的<code>payload</code>，进一步学习java利用链。</p>
+<p><strong>Reference:</strong></p>
+<p><a href="https://xz.aliyun.com/t/6787#toc-3" target="_blank" rel="noopener">https://xz.aliyun.com/t/6787#toc-3</a></p>
+<p><a href="https://blog.csdn.net/sun1318578251/article/details/106120247" target="_blank" rel="noopener">https://blog.csdn.net/sun1318578251/article/details/106120247</a></p>
+<p> <a href="https://github.com/gyyyy/footprint/blob/master/articles/2019/about-java-serialization-and-deserialization.md" target="_blank" rel="noopener">https://github.com/gyyyy/footprint/blob/master/articles/2019/about-java-serialization-and-deserialization.md</a> </p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <a></>Copyright © Monitor's Blog 2019-2020</a>
+    </p>
+    
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
