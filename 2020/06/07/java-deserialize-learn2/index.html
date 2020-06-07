@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        java反射机制学习 - Monitor&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    <script src="/js/wrap.js"></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Never be afraid to try and fail. </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.jpg">
+        </div>
+        <div class="name">
+            <i>monitor</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java反射"><span class="toc-text">Java反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用反射访问类的方法"><span class="toc-text">利用反射访问类的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用反射访问类的属性"><span class="toc-text">利用反射访问类的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用反射执行命令"><span class="toc-text">利用反射执行命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> Never be afraid to try and fail. </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        java反射机制学习
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-06-07 16:53:11</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#java" title="java">java</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h2 id="Java反射"><a href="#Java反射" class="headerlink" title="Java反射"></a>Java反射</h2><p>什么是反射机制？对于没接触过java这门语言的人来讲，这确实属于一个新的名词。(鄙人大一学过java也没接触过这个名词orz)这里引用网络上普遍存在解释：</p>
+<blockquote>
+<p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意方法和属性；这种动态获取信息以及动态调用对象方法的功能称为java语言的反射机制。</p>
+</blockquote>
+<p>看解释不难理解，反射机制能够让我们能够获取任意一个类的属性和方法，那么无疑就提高了java代码的独立性，使得程序更灵活等。那么既然有这些特点，就让我们看看反射机制如何使用，以及如何应用到java反序列化中，下面用一个<strong>demo</strong>来看看：</p>
+<p><img src="/2020/06/07/java-deserialize-learn2/java-learn2-1.png" alt="java-learn2-1"></p>
+<p><img src="/2020/06/07/java-deserialize-learn2/java-learn2-2.png" alt="java-learn2-2"></p>
+<p>从代码中可以看出来，反射获取实例化对象和平常获取类的对象有点不同，这里一般分为三步来获取对象：</p>
+<p>1.获取类对象，加载要被实例化的类，一般有三种方法</p>
+<ul>
+<li><code>Class.forName(&quot;reflection.ClassTest&quot;)</code></li>
+<li><code>ClassTest.class</code></li>
+<li><code>new ClassTest().getClass()</code></li>
+</ul>
+<p>一般情况下，使用第一种方法，另外两种方法需要在相同路径下，不同路径加载会导致冲突。</p>
+<p>2.获取类对象的构造器对象，这里存在两个函数获取构造方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getConstructor(Class…&lt;?&gt; parameterTypes)</td>
+<td>获得该类中与参数类型匹配的公有构造方法</td>
+</tr>
+<tr>
+<td>getConstructors()</td>
+<td>获得该类的所有公有构造方法</td>
+</tr>
+<tr>
+<td>getDeclaredConstructor(Class…&lt;?&gt; parameterTypes)</td>
+<td>获得该类中与参数类型匹配的构造方法(主要私有)</td>
+</tr>
+<tr>
+<td>getDeclaredConstructors()</td>
+<td>获得该类所有构造方法</td>
+</tr>
+</tbody>
+</table>
+<p>3.通过构造器获取需要被实例化类的对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">constructor.newInstance()</span><br></pre></td></tr></table></figure>
+<p>这三步结束，我们就通过反射获取到类的对象了，那么接下来我们就可以通过反射，对类的方法和属性进行访问</p>
+<h3 id="利用反射访问类的方法"><a href="#利用反射访问类的方法" class="headerlink" title="利用反射访问类的方法"></a>利用反射访问类的方法</h3><p>这里java也提供了一下两种函数，来获取对象的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getMethod(String name, Class…&lt;?&gt; parameterTypes)</td>
+<td>获得该类某个公有的方法</td>
+</tr>
+<tr>
+<td>getMethods()</td>
+<td>获得该类所有公有的方法</td>
+</tr>
+<tr>
+<td>getDeclaredMethod(String name, Class…&lt;?&gt; parameterTypes)</td>
+<td>获得该类某个方法(主要私有)</td>
+</tr>
+<tr>
+<td>getDeclaredMethods()</td>
+<td>获得该类所有方法</td>
+</tr>
+</tbody>
+</table>
+<p>使用方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Method method = cls.getMethod(<span class="string">"setName"</span>,String.class);</span><br><span class="line">method.invoke(instance,<span class="string">"monitor"</span>);<span class="comment">//这里调用instance对象的setName方法，参数为monitor</span></span><br></pre></td></tr></table></figure>
+<p>当然，我们也可以直接调用对象调用函数的方法<code>instace.setName(&quot;monitor&quot;)</code>，但是一般只能获取公有方法，这里只是演示如何通过反射机制访问类对象，同时反射机制还可以访问私有方法<code>getDeclaredMethod</code>，这是直接调用做不到的地方。</p>
+<h3 id="利用反射访问类的属性"><a href="#利用反射访问类的属性" class="headerlink" title="利用反射访问类的属性"></a>利用反射访问类的属性</h3><p>同样java也提供两个函数</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getField(String name)</td>
+<td>获得某个公有的属性对象</td>
+</tr>
+<tr>
+<td>getFields()</td>
+<td>获得所有公有的属性对象</td>
+</tr>
+<tr>
+<td>getDeclaredField(String name)</td>
+<td>获得某个属性对</td>
+</tr>
+<tr>
+<td>getDeclaredFields()</td>
+<td>获得所有属性对象</td>
+</tr>
+</tbody>
+</table>
+<p>使用方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Field field = cls.getField(<span class="string">"name"</span>);<span class="comment">//获取属性名：name</span></span><br><span class="line">field.set(instance,<span class="string">"monitor"</span>)<span class="comment">//修改instance对象的name属性值为monitor</span></span><br><span class="line"><span class="comment">//访问私有属性</span></span><br><span class="line">Field field1 = cls.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">field1.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">field1.set(instance,<span class="string">"monitor"</span>);</span><br></pre></td></tr></table></figure>
+<p>这里需要注意的是如何是访问私有对象时，要先使用<code>setAccessible</code>将访问设置为<strong>true</strong>，否在会导致无法访问，前面的构造器、方法的获取也是同理。</p>
+<h3 id="利用反射执行命令"><a href="#利用反射执行命令" class="headerlink" title="利用反射执行命令"></a>利用反射执行命令</h3><p>从上面的学习，我们已经知道反射的基本使用方法，既然反射可以访问任意类的方法和属性，那么我们是不是可以利用这一特性来执行命令呢？说干就干，这里以代码来演示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Runtime.getRuntime().exec(<span class="string">"calc"</span>);<span class="comment">//java常见的执行命令的方法</span></span><br><span class="line"><span class="comment">//利用反射执行命令</span></span><br><span class="line">Class clas = Class.forName(<span class="string">"java.lang.Runtime"</span>);</span><br><span class="line">Constructor constructor1 = clas.getDeclaredConstructor();</span><br><span class="line">constructor1.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">Object obj = constructor1.newInstance();</span><br><span class="line">Method method2 = clas.getMethod(<span class="string">"exec"</span>, String.class);</span><br><span class="line">method2.invoke(obj,<span class="string">"calc"</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/07/java-deserialize-learn2/java-learn2-3.gif" alt="java-learn2-3"></p>
+<p>上面的代码，可能会疑惑，为什么常用方法里的<code>getRuntime</code>没在反射里看到使用呢。因为这里我方便学习，先按照上面的步骤来执行命令。其实在<code>Runtime</code>这个类里面，因为它的构造方法是私有的，所以一般情况下我们无法访问，但因为<code>getRuntime</code>方法会返回一个<code>Runtime</code>的对象，所以一般我们可以通过<code>Runtime.getRuntime.exec</code>来执行命令，下面以另一种方法来演示执行命令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class clas = Class.forName(<span class="string">"java.lang.Runtime"</span>);</span><br><span class="line">Object obj = clas.getMethod(<span class="string">"getRuntime"</span>).invoke(<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line">clas.getMethod(<span class="string">"exec"</span>, String.class).invoke(obj,<span class="string">"calc"</span>);</span><br></pre></td></tr></table></figure>
+<p>因为<code>getRuntime</code>方法会返回一个对象，所以这里我们就不需要构造器来获取对象了，直接获取方法得到对象，然后执行命令。同时，这里附上利用另一个类ProcessBuilder来执行命令的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ProcessBuilder 反射执行命令一</span></span><br><span class="line">Class cls = Class.forName(<span class="string">"java.lang.ProcessBuilder"</span>);</span><br><span class="line">String[][] cmd = <span class="keyword">new</span> String[][]&#123;&#123;<span class="string">"calc"</span>&#125;&#125;;</span><br><span class="line">Constructor constructor = cls.getConstructor(String[].class);</span><br><span class="line">Object obj = constructor.newInstance(cmd);</span><br><span class="line">cls.getMethod(<span class="string">"start"</span>).invoke(obj,<span class="keyword">null</span>);</span><br><span class="line"><span class="comment">//ProcessBuilder 反射执行命令二</span></span><br><span class="line">Class cls = Class.forName(<span class="string">"java.lang.ProcessBuilder"</span>);</span><br><span class="line">Constructor constructor = cls.getDeclaredConstructor(List.class);</span><br><span class="line">Object obj = constructor.newInstance(Arrays.asList(<span class="string">"calc"</span>));</span><br><span class="line">cls.getMethod(<span class="string">"start"</span>).invoke(obj,<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<p>到这里其实已经可以知道如何使用反射机制了，那么可能会有疑问，为什么明明一行代码就可以执行命令，偏偏要花费这么多行代码。</p>
+<p>其实看标题就知道跟反序列化有关，这只是学反序列化前的基础学习。我们都知道，序列化后的数据保存类名、属性名，那放到上面一行代码中，序列化后就是<code>Object:Runtime,command:calc</code>，经过反序列化之后java根本无法识别，无法成功执行命令。但我们可以利用反射机制，构造利用链进行一层层的调用，最后得到我们想要的东西，成功执行命令。</p>
+<p>除此之外，我们还能将反射机制完美的运用到模板注入漏洞中去，假如存在一个这样的场景：某个输入点可以进行模板注入，但是后端过滤了<code>java.lang.Runtime</code>，<code>java.lang.ProcessBuilder</code>，那我们完全可以利用反射机制绕过后端，成功进行命令执行。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过学习，我们已经大致了解了什么是反射，如何使用反射机制，那么在下一个文章，我会通过分析漏洞，来进一步学习在反序列化中利用反射，以及加深对反序列化漏洞的理解。</p>
+<p><strong>reference:</strong></p>
+<p><a href="https://xz.aliyun.com/t/6787#toc-6" target="_blank" rel="noopener">https://xz.aliyun.com/t/6787#toc-6</a></p>
+<p><a href="https://blog.csdn.net/sun1318578251/article/details/105817102" target="_blank" rel="noopener">https://blog.csdn.net/sun1318578251/article/details/105817102</a></p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <a></>Copyright © Monitor's Blog 2019-2020</a>
+    </p>
+    
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
