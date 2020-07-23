@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -49,7 +49,7 @@
 <div class="nav" id="nav">
     <div class="avatar-name">
         <div class="avatar">
-            <img src="/img/avatar.jpg">
+            <img src="/img/avatar.jpg" />
         </div>
         <div class="name">
             <i>monitor</i>
@@ -57,25 +57,25 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li>
+            <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>Home</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
                     <span>Tags</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
                     <span>Archive</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
                     <span>About</span>
@@ -96,7 +96,7 @@
     <div class="search-container">
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
+            <input id="search-input"/>
             <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
@@ -131,7 +131,7 @@
         </span>
         <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
-
+</span>
     </div>
     <div class="post-content ">
         <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1407245392&auto=1&height=66"></iframe>
@@ -161,7 +161,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#明文块：</span></span><br><span class="line">a:<span class="number">2</span>:&#123;s:<span class="number">8</span>:<span class="string">"userna</span></span><br><span class="line"><span class="string">me"</span>;s:<span class="number">5</span>:<span class="string">"test1"</span>;</span><br><span class="line">s:<span class="number">8</span>:<span class="string">"password"</span>;s</span><br><span class="line">:<span class="number">7</span>:<span class="string">"monitor"</span>&#125;</span><br><span class="line"><span class="comment">#需求--将test1改成admin，即需要的到第一块的新密文</span></span><br><span class="line"><span class="comment">#-*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment">#伪造密文，提交</span></span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">ciher = <span class="string">"KQLoqqk7v+aiHe2u9RLkCgxNNbMTFxd5ArHflVlA87crG/osNp6bwdxjzb5UYcYoy4AfWiQbYgygpp0h2/MK/A=="</span>.decode(<span class="string">"base64"</span>)</span><br><span class="line">old_pt = <span class="string">"me\";s:5:\"test1\";"</span></span><br><span class="line">new_pt = <span class="string">"me\";s:5:\"admin\";"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">16</span>):</span><br><span class="line">    cipher = cipher[:i]+chr(ord(cipher[i])^ord(old_pt[i])^ord(new_pt[i]))+cipher[i+<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">print</span> urllib.quote(cipher.encode(<span class="string">"base64"</span>))</span><br><span class="line"><span class="comment">#报错得到plain，伪造IV</span></span><br><span class="line">plain = <span class="string">"U6m8Cig8+X/MJdhMyW9Wom1lIjtzOjU6ImFkbWluIjtzOjg6InBhc3N3b3JkIjtzOjc6Im1vbml0b3IiO30="</span>.decode(<span class="string">"base64"</span>)</span><br><span class="line">old_str = plain[:<span class="number">16</span>]</span><br><span class="line">new_str = <span class="string">'a:2:&#123;s:8:\"userna'</span></span><br><span class="line">old_iv = <span class="string">'cSA4biZczXmBIjoaftE4xg=='</span>.decode(<span class="string">'base64'</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">16</span>):</span><br><span class="line">    new_iv = old_iv[:i]+chr(ord(old_iv[i])^ord(old_str[i])^ord(new_str[i]))+old_iv[i+<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">print</span> urllib.quote(new_iv.encode(<span class="string">"base64"</span>))</span><br></pre></td></tr></table></figure>
 
         
-        <br>
+        <br />
         <div id="comment-container">
         </div>
         <div id="disqus_thread"></div>
